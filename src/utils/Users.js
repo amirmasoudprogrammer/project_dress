@@ -18,4 +18,13 @@ const users = [
     { id: 17, name: "حمید", image: "/Ellipse 18.png" },
     { id: 18, name: "نسرین", image: "/Ellipse 18.png" },
 ];
-export {users}
+const images = [
+    {id:1, name: "/purple.png", color: "bg-purple-500" ,text:"عقد وفرمالیته"},
+    {id:2, name: "/green.png", color: "bg-teal-700" ,text:"عقد وفرمالیته"},
+    {id:3, name: "/red.png", color: "bg-red-600" ,text:"عقد وفرمالیته"},
+    {id:4, name: "/black.png", color: "bg-zinc-900" ,text:"عقد وفرمالیته"},
+    {id:5, name: "/black.png", color: "bg-zinc-900" ,text:"عقد وفرمالیته"},
+    {id:6, name: "/green.png", color: "bg-teal-700" ,text:"عقد وفرمالیته"},
+    {id:7, name: "/red.png", color: "bg-red-600" ,text:"عقد وفرمالیته"}
+];
+export {users , images}
