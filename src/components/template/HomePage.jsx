@@ -4,6 +4,7 @@ import SlideUser from "@/components/template/SlideUser";
 import BannerItem2 from "@/components/template/BannerItem2";
 import Categories from "@/components/template/Categories";
 import BannerMain from "@/components/template/BannerMain";
+import NewProduct from "@/components/template/NewProduct";
 
 function HomePage(props) {
     return (
@@ -13,6 +14,7 @@ function HomePage(props) {
             <BannerItem2/>
             <Categories/>
             <BannerMain/>
+            <NewProduct/>
             <br/>
             <br/>
             <br/>

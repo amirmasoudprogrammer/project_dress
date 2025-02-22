@@ -8,9 +8,9 @@ function CardUser({ data }) {
     return (
         <Link href="">
             <div className="flex flex-col items-center justify-between">
-                <div className="relative w-[100px] h-[100px]">
+                <div className="mt-2 relative w-[100px] h-[100px]">
 
-                    <div className="absolute inset-0 border-[3px] border-red-600 rounded-full animate-spin-slow"></div>
+                    <div className="absolute inset-0 border-[3px] ring-2 ring-rose-500 rounded-full  ring-offset-2 animate-spin-slow"></div>
 
 
                     <Image

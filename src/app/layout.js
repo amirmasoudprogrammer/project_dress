@@ -1,6 +1,6 @@
 import "./globals.css";
 import Layout from "@/components/layout/Layout";
-
+import Providers from "@/redux/Providers";
 
 export const metadata = {
     title: "Create Next App",
@@ -11,9 +11,11 @@ export default function RootLayout({children}) {
     return (
         <html lang="fa" dir="rtl">
         <body className="font-estedad bg-slate-200 ">
-        <Layout>
-            {children}
-        </Layout>
+        <Providers>
+                <Layout>
+                    {children}
+                </Layout>
+        </Providers>
         </body>
         </html>
     );

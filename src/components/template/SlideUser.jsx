@@ -12,7 +12,7 @@ import {users} from "@/utils/Users";
 function SlideUser() {
     return (
         <div
-            className="-mt-14 md:-mt-28 flex items-center justify-center md:mr-5"> {/* کاهش فاصله با کامپوننت بالایی */}
+            className="-mt-14 md:-mt-28 border-t-2 border-b-2 border-slate-300 rounded-lg py-3 px-1 shadow-lg  flex items-center justify-center md:mr-5"> {/* کاهش فاصله با کامپوننت بالایی */}
             <Swiper
                 slidesPerView={5}
                 freeMode={true}

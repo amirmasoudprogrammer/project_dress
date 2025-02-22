@@ -14,7 +14,7 @@ function Categories() {
     return (
         <>
             <Title name="دسته بندی ها" />
-            <div className="relative w-full mt-10">
+            <div className="relative w-full  ">
                 <Swiper
                     onSwiper={(swiper) => (swiperRef.current = swiper)}
                     slidesPerView={2} // برای موبایل پیش‌فرض ۲ اسلاید
@@ -25,7 +25,7 @@ function Categories() {
                         delay: 3000,
                         disableOnInteraction: false,
                     }}
-                    modules={[FreeMode, Autoplay]}
+                    modules={[FreeMode,Autoplay ]}
                     className="mySwiper"
                     breakpoints={{
                         480: { slidesPerView: 2, spaceBetween: 10 }, // گوشی‌های کوچک
@@ -35,14 +35,14 @@ function Categories() {
                     }}
                 >
                     {images.map((image, index) => (
-                        <SwiperSlide key={image.id} className="transition-all duration-500">
+                        <SwiperSlide key={image.id} className="transition-all duration-500 pt-16">
                             {({ isActive }) => (
                                 <>
                                     <div
-                                        className={`m-auto flex items-center justify-center text-black transition-all duration-500 ${
+                                        className={`m-auto flex items-center justify-center  text-black transition-all duration-500 ${
                                             isActive
-                                                ? "scale-100 translate-y-[-10px]"
-                                                : "scale-90 translate-y-[10px]"
+                                                ? "scale-100 translate-y-[-10px] duration-500 ring-2 ring-rose-500 rounded-t-full ring-offset-2 "
+                                                : "scale-75 translate-y-[10px] duration-500"
                                         }`}
                                     >
                                         <CardImage data={image} />
@@ -69,15 +69,15 @@ function Categories() {
                 <div className="flex justify-center mt-10 md:-mt-10 space-x-2">
                     <button
                         onClick={() => swiperRef.current && swiperRef.current.slidePrev()}
-                        className="m-5 border rounded-full bg-black text-white p-3"
+                        className="m-5 border rounded-full bg-slate-200 border-2 border-black hover:shadow-lg hover:shadow-blue-200 transition-all duration-500 hover:scale-90  text-white p-3"
                     >
-                        <FaAngleRight color="white" size={20} />
+                        <FaAngleRight color="black" size={20} />
                     </button>
                     <button
                         onClick={() => swiperRef.current && swiperRef.current.slideNext()}
-                        className="m-5 border rounded-full bg-black text-white p-3"
+                        className="m-5 border rounded-full bg-slate-200 border-2  border-black hover:shadow-lg hover:shadow-blue-200 transition-all duration-500   hover:scale-90 text-white p-3"
                     >
-                        <FaAngleLeft color="white" size={20} />
+                        <FaAngleLeft color="black" size={20} />
                     </button>
                 </div>
             </div>

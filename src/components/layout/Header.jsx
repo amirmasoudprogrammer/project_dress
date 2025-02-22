@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import Link from "next/link";
 import Image from "next/image";
 
@@ -27,9 +27,11 @@ function Header() {
                 <div className="w-full flex justify-between items-center">
                     {/* لوگو و منو */}
                     <div className="flex items-center justify-between">
-                        <Link href="/" className="w-20">
-                            <Image src="/Group 946.svg" alt="Logo" width={90} height={90}/>
-                        </Link>
+                        <div className=" relative top-3">
+                            <Link href="/" className="w-20 ">
+                                <Image src="/Group 946.svg" alt="Logo" width={90} height={90}/>
+                            </Link>
+                        </div>
 
                         <nav>
                             <ul className="flex items-center mr-10 space-x-5 rtl:space-x-reverse">
