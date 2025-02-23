@@ -5,6 +5,8 @@ import BannerItem2 from "@/components/template/BannerItem2";
 import Categories from "@/components/template/Categories";
 import BannerMain from "@/components/template/BannerMain";
 import NewProduct from "@/components/template/NewProduct";
+import Our_Products from "@/components/template/Our_Products";
+import Blog from "@/components/template/Blog";
 
 function HomePage(props) {
     return (
@@ -15,6 +17,8 @@ function HomePage(props) {
             <Categories/>
             <BannerMain/>
             <NewProduct/>
+            <Our_Products/>
+            <Blog/>
             <br/>
             <br/>
             <br/>

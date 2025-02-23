@@ -34,11 +34,11 @@ function Banner() {
             </Swiper>
 
             {/* دکمه‌های ناوبری */}
-            <button className="custom-prev absolute left-4 top-1/2 transform -translate-y-1/2 z-10  p-2 rounded-full">
-                <FaAngleLeft size={50} color="black"/>
+            <button className="custom-prev  absolute left-4 md:left-20 top-1/2 transform -translate-y-1/2 z-10  p-2 rounded-full">
+                <FaAngleLeft size={30} color="black" />
             </button>
-            <button className="custom-next absolute right-4 top-1/2 transform -translate-y-1/2 z-10  p-2 rounded-full">
-                <FaAngleRight size={50} color="black" />
+            <button className="custom-next  absolute right-4 md:right-20 top-1/2 transform -translate-y-1/2 z-10  p-2 rounded-full">
+                <FaAngleRight size={30} color="black" />
             </button>
         </div>
     );
