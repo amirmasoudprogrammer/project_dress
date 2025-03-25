@@ -16,14 +16,15 @@ function Layout({children}) {
 
     return (
         <>
-            <div className="container m-auto flex md:flex-row items-start justify-between relative overflow-hidden max-w-screen">
-
+            <div className="container m-auto flex md:flex-row items-start justify-between relative">
                 {/* دکمه منوی موبایل */}
-                <div className="flex md:hidden text-black mr-5 items-center mt-10 justify-center">
-                    <button onClick={() => setMenuOpen(true)} className="text-2xl">
-                        <RxHamburgerMenu/>
-                    </button>
-                </div>
+
+                    <div className="flex md:hidden text-black mr-5 items-center mt-10 justify-center">
+                        <button onClick={() => setMenuOpen(true)} className="text-2xl">
+                            <RxHamburgerMenu/>
+                        </button>
+                    </div>
+
                 {/* منوی موبایل */}
                 <motion.div initial={{x: "200%"}} animate={{x: menuOpen ? "0%" : "250%"}} transition={{duration: 0.3}} className="fixed top-0 right-0 w-3/4 h-full bg-white shadow-lg z-50 p-5 md:hidden">
                     <button
@@ -162,6 +163,10 @@ function Layout({children}) {
                     </div>
                 </div>
                 <div>{children}</div>
+                <div className=" flex items-center justify-between mt-9 ml-6 md:mr-20 md:mt-5 text-black cursor-pointer md:text-[34px] text-[30px]">
+                    <span><IoNotificationsOutline /></span>
+                </div>
+
             </div>
         </>
     );

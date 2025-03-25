@@ -26,6 +26,15 @@ function UserPage(props) {
     return (
         <>
             <div className="container m-auto mr-5 flex flex-col items-start justify-between mt-10">
+                <div className="flex items-center justify-between md:hidden border border-slate-300 mt-20 w-[250px] p-5">
+                    <div className="text-black ">
+                        <span>امیر مسعود اسدی طلب</span>
+                        <p>09302153874</p>
+                    </div>
+                    <Link href="">
+                        <AiTwotoneEdit color="blue"/>
+                    </Link>
+                </div>
                 <div className="hidden md:flex flex-col items-start justify-between ">
                     <div className="flex flex-col items-start justify-between">
                         <span className="text-black text-[14px]">سفارش های من</span>
@@ -67,7 +76,7 @@ function UserPage(props) {
                         </div>
                     </div>
                 </div>
-                <div className="hidden md:flex mt-10 ml-10 md:ml-0">
+                <div className="mt-10 ml-10 md:ml-0">
                     <div className="flex items-center mt-10 justify-center border-b border-slate-300 md:border-0 m-auto md:justify-start">
                         <CiHeart color="red" size="40"/>
                         <span className="text-black md:text-[20px] font-bold">علاقه مندی ها</span>
