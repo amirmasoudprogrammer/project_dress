@@ -81,7 +81,7 @@ function UserPage(props) {
                         <CiHeart color="red" size="40"/>
                         <span className="text-black md:text-[20px] font-bold">علاقه مندی ها</span>
                     </div>
-                    {favoritesItem.length === 0 && <div className="m-auto flex items-center justify-center w-full relative top-20 right-80 left-0">
+                    {favoritesItem.length === 0 && <div className="m-auto hidden md:flex items-center justify-center w-full relative top-20 right-80 left-0">
                         <span className="text-black">علاقه مندی ها خالی هست!</span>
                     </div>}
                     <div className="flex items-center justify-center flex-wrap mt-5  ">
