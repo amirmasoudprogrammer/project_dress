@@ -1,11 +1,11 @@
 import React from 'react';
+import ProductPage from "@/components/template/ProductPage";
 
 function page(props) {
     return (
-        <div className="text-black">
-
-        </div>
-
+        <>
+            <ProductPage/>
+        </>
     );
 }
 

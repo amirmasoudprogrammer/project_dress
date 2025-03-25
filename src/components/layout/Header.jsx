@@ -1,24 +1,34 @@
-import React from 'react';
+"use client"
+import React, {useEffect, useState} from 'react';
 import Link from "next/link";
 import Image from "next/image";
+import {MdOutlineDarkMode} from "react-icons/md";
+import {IoBagOutline} from "react-icons/io5";
+import {FaRegUser} from "react-icons/fa";
+import {TiPhoneOutline} from "react-icons/ti";
 
 const menuItems = [
     {name: "صفحه اصلی", href: "/"},
-    {name: "محصولات ما", href: "/products"},
-    {name: "درباره ما", href: "/about"},
-    {name: "تماس با ما", href: "/contact"},
+    {name: "محصولات ما", href: "/Products"},
+    {name: "درباره ما", href: "/About"},
+    {name: "تماس با ما", href: "/Contact"},
     {name: "فروشگاه ما", href: "/store"},
 ];
 
 const icons = [
     {src: "/Group 9.svg", alt: "Notifications", size: 20},
-    {src: "/Sun.svg", alt: "Theme Toggle", size: 24},
-    {src: "/Profile Add 1.svg", alt: "Profile", size: 24},
-    {src: "/Bag 1.svg", alt: "Shopping Bag", size: 24},
+    {src: <FaRegUser/>, alt: "Profile", size: 24},
+    {icon: <IoBagOutline/>, alt: "Shopping Bag", size: 24},
 ];
 
 function Header() {
+    const [darkMode, setDarkMode] = useState(false);
 
+
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode);
+        document.documentElement.classList.toggle("dark");
+    };
 
     return (
         <header>
@@ -39,7 +49,7 @@ function Header() {
                                     <li key={index}>
                                         <Link href={item.href} className="text-black relative flex flex-wrap gap-3">
                                             <p className="text-lg group relative w-max">
-                                                <span className="font-normal text-sm">{item.name}</span>
+                                                <span className="font-normal text-sm dark:text-white">{item.name}</span>
                                                 <span
                                                     className="absolute -bottom-1 right-0 w-0 transition-all h-0.5 bg-slate-50 group-hover:w-full"></span>
                                             </p>
@@ -52,23 +62,50 @@ function Header() {
 
                     {/* آیکون‌ها */}
                     <div className="flex items-center space-x-4 rtl:space-x-reverse">
-                        {icons.map((icon, index) => (
-                            <Link key={index} href="/">
-                                <div
-                                    className="bg-slate-200 shadow-lg p-3 rounded-full flex items-center justify-center w-12 h-12">
-                                    <Image src={icon.src} alt={icon.alt} width={icon.size} height={icon.size}/>
-                                </div>
-                            </Link>
-                        ))}
+
+                        <Link href="/">
+                            <div
+                                className="bg-white  dark:bg-gray-800 shadow-lg p-3 rounded-full flex items-center justify-center w-12 h-12">
+                                <TiPhoneOutline color={!darkMode ? "black" : "white"}/>
+                            </div>
+                        </Link>
+
+                        <button
+                            onClick={toggleDarkMode}
+                            className={`${!darkMode ? 'bg-white' : 'dark:bg-gray-800'}  shadow-lg p-3 rounded-full flex items-center justify-center w-12 h-12`}
+                        >
+                            {darkMode ? (
+                                <MdOutlineDarkMode color={!darkMode ? "black" : "white"}/>
+                            ) : (
+                                <Image src="/Sun.svg" alt="Light Mode" width={24} height={24}/>
+                            )}
+                        </button>
+                        <Link href="/Login&Registration">
+                            <div
+                                className="bg-white dark:bg-gray-800 shadow-lg p-3 rounded-full flex items-center justify-center w-12 h-12">
+                                <FaRegUser color={!darkMode ? "black" : "white"}/>
+                            </div>
+                        </Link>
+                        <Link href="/Shopping_Cart">
+                            <div
+                                className="bg-white dark:bg-gray-800 shadow-lg p-3 rounded-full flex items-center justify-center w-12 h-12">
+                                <IoBagOutline color={!darkMode ? "black" : "white"}/>
+                            </div>
+                        </Link>
+
+
                     </div>
                 </div>
 
                 {/* نوار جستجو */}
-                <div className="flex mt-5 bg-slate-50 p-2 rounded w-[350px] items-center">
+                <div
+                    className="flex border border-gray-300  dark:bg-gray-800 dark:border border-gray-400  mt-5 bg-slate-50 p-2 rounded w-[350px] items-center">
                     <Image src="/Search-01.svg" alt="Search Icon" width={20} height={20}/>
-                    <input type="text" className="w-full outline-none text-black pr-2" placeholder="جستجو کنید..."/>
+                    <input type="text" className=" dark:bg-gray-800 dark:text-white w-full outline-none text-black pr-2"
+                           placeholder="جستجو کنید..."/>
                 </div>
             </div>
+
 
             {/* موبایل */}
             <div className="container relative z-10 mt-2 mx-auto flex justify-between md:hidden items-center px-4">

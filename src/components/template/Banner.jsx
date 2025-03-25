@@ -8,6 +8,7 @@ import { Navigation, Autoplay } from 'swiper/modules';
 import Image from "next/image";
 import { FaAngleLeft } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa";
+import Link from "next/link";
 
 function Banner() {
     return (
@@ -23,13 +24,19 @@ function Banner() {
                 className="mySwiper"
             >
                 <SwiperSlide>
+                    <Link href="/Products">
                     <Image className="w-full h-auto object-cover" src="/Rectangle 4.svg" alt="Slide 1" width={1920} height={1080} />
+                   </Link>
                 </SwiperSlide>
                 <SwiperSlide>
+                    <Link href="/Products">
                     <Image className="w-full h-auto object-cover" src="/Rectangle 4.svg" alt="Slide 2" width={1920} height={1080} />
+                    </Link>
                 </SwiperSlide>
                 <SwiperSlide>
+                    <Link href="/Products">
                     <Image className="w-full h-auto object-cover" src="/Rectangle 4.svg" alt="Slide 3" width={1920} height={1080} />
+                    </Link>
                 </SwiperSlide>
             </Swiper>
 

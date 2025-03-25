@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import Title from "@/components/template/Title";
-import { useGetProductsQuery } from "@/redux/apiSlice";
+import { useGetProductsQuery } from "@/redux/features/api/apiSlice";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -13,19 +14,32 @@ function OurProducts() {
     const [activeIndex, setActiveIndex] = useState(0);
     const { data, error, isLoading } = useGetProductsQuery();
 
-    // مدیریت حالت لودینگ و خطا
-    if ( error) {
-        return <LoadingOrError message={error && "خطا در سرور"} />;
+    if (error) {
+        return <LoadingOrError message="خطا در سرور" />;
     }
 
-    // تعداد ثابت ۵ دکمه برای Indicator
     const indicatorsCount = 5;
 
     return (
         <>
-            <Title name="محصولات ما" />
+            {/* انیمیشن برای عنوان */}
+            <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                viewport={{ once: true }}
+            >
+                <Title name="محصولات ما" />
+            </motion.div>
 
-            <div className="relative w-full mt-10">
+            {/* انیمیشن برای کل بخش */}
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.2 }}
+                className="relative w-full mt-10"
+            >
                 <Swiper
                     onSlideChange={(swiper) => setActiveIndex(swiper.realIndex % indicatorsCount)}
                     slidesPerView={2}
@@ -47,8 +61,18 @@ function OurProducts() {
                 >
                     {data && Array.isArray(data) && data.length > 0 ? (
                         data.map((item, index) => (
-                            <SwiperSlide key={item.id || index} className="transition-all duration-500 mr-5 md:-mr-5 pt-16">
-                                <CardProduct data={item} />
+                            <SwiperSlide
+                                key={item.id || index}
+                                className="transition-all duration-500 mr-5 md:-mr-5 pt-16"
+                            >
+                                <motion.div
+                                    initial={{ opacity: 0, y: 50 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
+                                    viewport={{ once: true, amount: 0.2 }}
+                                >
+                                    <CardProduct data={item} />
+                                </motion.div>
                             </SwiperSlide>
                         ))
                     ) : (
@@ -56,7 +80,7 @@ function OurProducts() {
                     )}
                 </Swiper>
 
-                {/* Indicators با ۵ دکمه */}
+                {/* Indicators */}
                 <div className="flex justify-center mt-5 space-x-2">
                     {Array.from({ length: indicatorsCount }).map((_, index) => (
                         <button
@@ -68,7 +92,7 @@ function OurProducts() {
                         />
                     ))}
                 </div>
-            </div>
+            </motion.div>
         </>
     );
 }

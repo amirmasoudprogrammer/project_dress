@@ -1,14 +1,14 @@
 'use client';
 import React from 'react';
 import Title from "@/components/template/Title";
-import { useGetProductsQuery } from "@/redux/apiSlice";
+import { useGetProductsQuery } from "@/redux/features/api/apiSlice";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import LoadingOrError from "@/components/module/LoadingOrError";
-
-
+import { motion } from "framer-motion";
+import CardProductImage from "@/components/module/CardProductImage";
 
 function NewProduct() {
     const { data, error, isLoading } = useGetProductsQuery();
@@ -21,26 +21,31 @@ function NewProduct() {
         products.slice(i * 6, i * 6 + 6)
     );
 
-
-
-
     return (
         <>
-            <Title name="جدیدترین ها" />
-
+            {/* انیمیشن برای عنوان */}
+            <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                viewport={{ once: true }}
+            >
+                <Title name="جدیدترین ها" />
+            </motion.div>
 
             <div className="items-center flex justify-center">
-                {
-                    isLoading && <LoadingOrError message="لطفا کمی صبر کنید" />
-                }
-                {
-                    error && <LoadingOrError message="خطا در سرور" />
-                }
+                {isLoading && <LoadingOrError message="لطفا کمی صبر کنید" />}
+                {error && <LoadingOrError message="خطا در سرور" />}
             </div>
 
-
             {/* نسخه دسکتاپ */}
-            <div className="relative w-full m-auto hidden md:block">
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.2 }}
+                className="relative w-full m-auto hidden md:block"
+            >
                 <Swiper
                     modules={[Navigation, Autoplay]}
                     autoplay={{ delay: 3000, disableOnInteraction: false }}
@@ -51,18 +56,20 @@ function NewProduct() {
                     {rows.map((row, rowIndex) => (
                         <SwiperSlide key={rowIndex}>
                             <div className="container mx-auto p-4">
-                                <div className="grid grid-rows-3 ">
+                                <div className="grid grid-rows-3">
                                     {[0, 8, 16].map((startIndex) => (
-                                        <div key={startIndex} className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 ">
+                                        <div key={startIndex} className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8">
                                             {row.slice(startIndex, startIndex + 8).map((product, colIndex) => (
-                                                <div key={colIndex} className="flex justify-center">
-                                                    <Image
-                                                        src={product.image || "/images1235.png"}
-                                                        alt={product.name || "محصول بدون نام"}
-                                                        width={180}
-                                                        height={300}
-                                                    />
-                                                </div>
+                                                <motion.div
+                                                    key={colIndex}
+                                                    initial={{ opacity: 0, y: 50 }}
+                                                    whileInView={{ opacity: 1, y: 0 }}
+                                                    transition={{ duration: 0.6, ease: "easeOut", delay: colIndex * 0.1 }}
+                                                    viewport={{ once: true, amount: 0.2 }}
+                                                    className="flex justify-center"
+                                                >
+                                                 <CardProductImage product={product} id={colIndex}/>
+                                                </motion.div>
                                             ))}
                                         </div>
                                     ))}
@@ -79,10 +86,16 @@ function NewProduct() {
                 <button className="custom-next absolute bg-slate-200 right-20 top-1/2 transform -translate-y-1/2 z-10 p-2 rounded-full">
                     <FaAngleRight size={40} color="black" />
                 </button>
-            </div>
+            </motion.div>
 
             {/* نسخه موبایل */}
-            <div className="relative w-full m-auto block md:hidden">
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.2 }}
+                className="relative w-full m-auto block md:hidden"
+            >
                 <Swiper
                     modules={[Navigation, Autoplay]}
                     autoplay={{ delay: 3000, disableOnInteraction: false }}
@@ -93,18 +106,20 @@ function NewProduct() {
                     {mobileRows.map((row, rowIndex) => (
                         <SwiperSlide key={rowIndex}>
                             <div className="container mx-auto p-4">
-                                <div className="grid grid-cols-2 ">
+                                <div className="grid grid-cols-2">
                                     {[0, 1].map((colIndex) => (
-                                        <div key={colIndex} className="grid grid-rows-3 ">
+                                        <div key={colIndex} className="grid grid-rows-3">
                                             {row.slice(colIndex * 3, colIndex * 3 + 3).map((product, rowIdx) => (
-                                                <div key={rowIdx} className="flex justify-center">
-                                                    <Image
-                                                        src={product.image || "/images1235.png"}
-                                                        alt={product.name || "محصول بدون نام"}
-                                                        width={180}
-                                                        height={300}
-                                                    />
-                                                </div>
+                                                <motion.div
+                                                    key={rowIdx}
+                                                    initial={{ opacity: 0, y: 50 }}
+                                                    whileInView={{ opacity: 1, y: 0 }}
+                                                    transition={{ duration: 0.6, ease: "easeOut", delay: rowIdx * 0.1 }}
+                                                    viewport={{ once: true, amount: 0.2 }}
+                                                    className="flex justify-center"
+                                                >
+                                                    <CardProductImage product={product} id={rowIdx}/>
+                                                </motion.div>
                                             ))}
                                         </div>
                                     ))}
@@ -121,7 +136,7 @@ function NewProduct() {
                 <button className="custom-next absolute bg-slate-200 right-4 top-1/2 transform -translate-y-1/2 z-10 p-2 rounded-full">
                     <FaAngleRight size={30} color="black" />
                 </button>
-            </div>
+            </motion.div>
         </>
     );
 }

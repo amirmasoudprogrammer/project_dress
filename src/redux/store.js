@@ -1,13 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { productApi } from "./apiSlice";
+import { productApi } from "./features/api/apiSlice";
+import cartReducer from "./features/cart/cartSlice";
+import productReducer from "./features/Products/productSlice";
+import stepReducer from  "./features/step/stepSlice"
 
-// ایجاد استور با RTK Query
 const store = configureStore({
     reducer: {
         [productApi.reducerPath]: productApi.reducer,
+        cart: cartReducer,
+        products: productReducer,
+        step: stepReducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(productApi.middleware), // اضافه کردن middleware برای RTK Query
+        getDefaultMiddleware().concat(productApi.middleware),
 });
 
 export default store;
