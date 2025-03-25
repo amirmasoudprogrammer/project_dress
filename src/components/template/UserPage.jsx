@@ -25,15 +25,54 @@ function UserPage(props) {
     console.log(state)
     return (
         <>
-            <div className="container m-auto mr-5 flex flex-col items-start justify-between mt-10">
-                <div className="flex items-center justify-between md:hidden border border-slate-300 mt-20 w-[250px] p-5">
+            <div className="container m-auto md:mr-5 flex flex-col items-start justify-between mt-10">
+                <div
+                    className="flex items-center rounded-xl  justify-between md:hidden border border-slate-300 mt-12 w-[260px] p-5">
                     <div className="text-black ">
-                        <span>امیر مسعود اسدی طلب</span>
-                        <p>09302153874</p>
+                        <span className="text-[12px]">امیر مسعود اسدی طلب</span>
+                        <p className="text-[12px] mt-2">09302153874</p>
                     </div>
                     <Link href="">
                         <AiTwotoneEdit color="blue"/>
                     </Link>
+                </div>
+                <div className="block md:hidden">
+                    <div className="flex items-center justify-between mt-10 w-[260px]">
+                        <div className="flex flex-col items-start justify-between">
+                            <span className="text-black text-[12px]">سفارش های من</span>
+                            <p className="w-[50px] h-[2px] bg-red-500 mt-1"></p>
+                        </div>
+                        <div className="flex items-center justify-end ">
+                            <Link href="" className="text-[12px] flex items-center justify-center text-[#3083FF]">
+                                <span className="ml-0 text-[12px]">مشاهده همه</span>
+                                <FaAngleLeft/>
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="mt-10">
+                        <div className="flex items-center justify-center gap-5">
+                            <div className="flex flex-col items-center justify-between">
+                                <Link className="text-[#3083FF] text-[23px] flex flex-col items-center justify-between group" href="">
+                                    <span className="group-hover:animate-spin"><FiRefreshCcw/></span>
+                                    <p className="text-[11px] mt-2">جاری</p>
+                                </Link>
+                            </div>
+                            <div className="mr-5 flex flex-col items-center justify-between">
+                                <Link className="text-[#3083FF] text-[11px] flex flex-col items-center justify-between group" href="">
+                <span className="group-hover:animate-pulse p-1 text-[11px] border-2 rounded-xl border-blue-500">
+                    <RiArrowGoBackFill/>
+                </span>
+                                    <p className="text-[11px] mt-2">تحویل شده</p>
+                                </Link>
+                            </div>
+                            <div className="mr-5 flex flex-col items-center justify-between">
+                                <Link className="text-[#3083FF] text-[11px] flex flex-col items-center justify-between group" href="">
+                                    <span className="group-hover:animate-bounce"><PiCodesandboxLogo size="26"/></span>
+                                    <p className="text-[11px] mt-1">مرجوعی شده</p>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className="hidden md:flex flex-col items-start justify-between ">
                     <div className="flex flex-col items-start justify-between">
@@ -76,16 +115,18 @@ function UserPage(props) {
                         </div>
                     </div>
                 </div>
-                <div className="mt-10 ml-10 md:ml-0">
-                    <div className="flex items-center mt-10 justify-center border-b border-slate-300 md:border-0 m-auto md:justify-start">
-                        <CiHeart color="red" size="40"/>
-                        <span className="text-black md:text-[20px] font-bold">علاقه مندی ها</span>
+                <div className="mt-2 ml-10 md:ml-0">
+                    <div className="flex items-center mt-10 text-[20px] md:text-[34px] justify-center  mr-9 w-[190px] md:w-auto border-b border-slate-300 md:border-0  md:justify-start">
+                        <CiHeart color="red"/>
+                        <span className="text-black text-[12px] md:text-[20px] font-bold">علاقه مندی ها</span>
                     </div>
-                    {favoritesItem.length === 0 && <div className="m-auto hidden md:flex items-center justify-center w-full relative top-20 right-80 left-0">
+                    {favoritesItem.length === 0 && <div
+                        className="m-auto hidden md:flex items-center justify-center w-full relative top-20 right-80 left-0">
                         <span className="text-black">علاقه مندی ها خالی هست!</span>
                     </div>}
-                    <div className="flex items-center justify-center flex-wrap mt-5  ">
-                        {favoritesItem.map((images) => <CardProductImage key={images.id} id={images.id} product={images}/>)}
+                    <div className="flex items-center justify-center flex-wrap mt-5 mr-10 md:mr-0 ">
+                        {favoritesItem.map((images) => <CardProductImage key={images.id} id={images.id}
+                                                                         product={images}/>)}
                     </div>
                 </div>
 

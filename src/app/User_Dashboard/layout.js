@@ -5,7 +5,7 @@ import {IoBagOutline} from "react-icons/io5";
 import {CiHeart, CiLogin} from "react-icons/ci";
 import {FaAngleDown} from "react-icons/fa6";
 import {RxHamburgerMenu} from "react-icons/rx";
-import { IoNotificationsOutline } from "react-icons/io5";
+import {IoNotificationsOutline} from "react-icons/io5";
 
 import Link from "next/link";
 import {motion} from "framer-motion";
@@ -19,14 +19,15 @@ function Layout({children}) {
             <div className="container m-auto flex md:flex-row items-start justify-between relative">
                 {/* دکمه منوی موبایل */}
 
-                    <div className="flex md:hidden text-black mr-5 items-center mt-10 justify-center">
-                        <button onClick={() => setMenuOpen(true)} className="text-2xl">
-                            <RxHamburgerMenu/>
-                        </button>
-                    </div>
+                <div className="flex md:hidden text-black mr-5 items-center mt-10 justify-center">
+                    <button onClick={() => setMenuOpen(true)} className="text-2xl">
+                        <RxHamburgerMenu/>
+                    </button>
+                </div>
 
                 {/* منوی موبایل */}
-                <motion.div initial={{x: "200%"}} animate={{x: menuOpen ? "0%" : "250%"}} transition={{duration: 0.3}} className="fixed top-0 right-0 w-3/4 h-full bg-white shadow-lg z-50 p-5 md:hidden">
+                <motion.div initial={{x: "200%"}} animate={{x: menuOpen ? "0%" : "250%"}} transition={{duration: 0.3}}
+                            className="fixed top-0 right-0 w-3/4 h-full bg-white shadow-lg z-50 p-5 md:hidden">
                     <button
                         onClick={() => setMenuOpen(false)}
                         className="text-red-600 text-2xl absolute top-4 left-4"
@@ -92,8 +93,8 @@ function Layout({children}) {
                     </div>
                 </motion.div>
                 {/* دستکتاپ */}
-                <div className="hidden md:block border  border-slate-300 w-[369px] h-[650px] mt-10 rounded-lg">
-                    <div className="mt-12 text-[16px] w-[341px] border-b border-slate-300 m-auto pb-2">
+                <div className="hidden md:block border  border-slate-300 w-[369px] min-h-[650px] mt-10 rounded-lg">
+                    <div className="mt-12 text-[16px] w-[321px] border-b border-slate-300 m-auto pb-2">
                         <div className="mr-2 flex items-start justify-between flex-col">
                             <span className="text-black">امیرمسعود اسدی طلب</span>
                         </div>
@@ -104,7 +105,7 @@ function Layout({children}) {
                             </Link>
                         </div>
                     </div>
-                    <div className="flex flex-col items-start justify-between mr-5 mt-10 ">
+                    <div className="flex flex-col items-start justify-between mr-5 m-auto ml-5 mt-10 ">
                         <div className="flex items-start justify-start border-b border-slate-300 w-[321px] pb-3">
                             <Link href="/User_Dashboard/orders" className="flex items-center justify-center text-black">
                                 <IoBagOutline/>
@@ -162,11 +163,10 @@ function Layout({children}) {
                         </div>
                     </div>
                 </div>
-                <div>{children}</div>
+                <div className="w-full max-w-[1200px] mx-auto overflow-hidden md:overflow-visible">{children}</div>
                 <div className=" flex items-center justify-between mt-9 ml-6 md:mr-20 md:mt-5 text-black cursor-pointer md:text-[34px] text-[30px]">
-                    <span><IoNotificationsOutline /></span>
+                    <span><IoNotificationsOutline/></span>
                 </div>
-
             </div>
         </>
     );
