@@ -59,7 +59,7 @@ function CardProduct({data, off}) {
                     <div className="cursor-pointer" onClick={toggleSave}>
                         <FaBookmark size={20} color={colorBookmark ? "red" : "black"} className="mr-3"/>
                     </div>
-                    <span className="text-black dark:text-white mr-5 truncate">{Text(title)}</span>
+                    <span className="text-black dark:text-white mr-5 truncate">{Text("سسس")}</span>
                 </div>
                 <span className="mt-3 text-sm text-red-500 dark:text-green-700">
                     {ConvertCurrency(price)} <strong className="text-black dark:text-white">تومان</strong>
