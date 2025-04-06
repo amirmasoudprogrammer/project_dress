@@ -27,7 +27,7 @@ function Layout({children}) {
 
                 {/* منوی موبایل */}
                 <motion.div initial={{x: "200%"}} animate={{x: menuOpen ? "0%" : "250%"}} transition={{duration: 0.3}}
-                            className="fixed top-0 right-0 w-3/4 h-full bg-white shadow-lg z-50 p-5 md:hidden">
+                            className="fixed top-0 right-0 w-3/4 h-full bg-white shadow-lg z-index p-5 md:hidden">
                     <button
                         onClick={() => setMenuOpen(false)}
                         className="text-red-600 text-2xl absolute top-4 left-4"
@@ -108,14 +108,19 @@ function Layout({children}) {
                     <div className="flex flex-col items-start justify-between mr-5 m-auto ml-5 mt-10 ">
                         <div className="flex items-start justify-start border-b border-slate-300 w-[321px] pb-3">
                             <Link href="/User_Dashboard/orders" className="flex items-center justify-center text-black">
-                                <IoBagOutline/>
+                                <p className="text-blue-500">
+                                    <IoBagOutline/>
+
+                                </p>
                                 <span className="mr-2 text-[14px]">سفارش ها</span>
                             </Link>
                         </div>
                         <div className="flex mt-5 items-start justify-start border-b border-slate-300 w-[321px] pb-5">
                             <Link href="/User_Dashboard/favorites"
                                   className="flex items-center justify-center text-black">
-                                <CiHeart/>
+                                <p className="text-red-700">
+                                    <CiHeart/>
+                                </p>
                                 <span className="mr-2 text-[14px]">علاقه مندی ها</span>
                             </Link>
                         </div>
@@ -125,7 +130,10 @@ function Layout({children}) {
                                 className="flex items-center justify-start text-black mt-3 cursor-pointer"
                                 onClick={() => setIsOpen(!isOpen)}
                             >
-                                <AiOutlineMessage/>
+                                <p className="text-green-500">
+                                    <AiOutlineMessage/>
+
+                                </p>
                                 <span className="mr-2 ml-2 text-[14px]">تیکت ها</span>
                                 <FaAngleDown
                                     className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}/>
@@ -157,14 +165,18 @@ function Layout({children}) {
                         </div>
                         <div className="flex mt-5 items-start justify-start pb-5">
                             <Link href="" className="flex items-center justify-center text-black">
-                                <CiLogin/>
+                                <p className="text-red-700 font-bold">
+                                    <CiLogin/>
+
+                                </p>
                                 <span className="mr-2 text-[14px]">خروج</span>
                             </Link>
                         </div>
                     </div>
                 </div>
                 <div className="w-full max-w-[1200px] mx-auto overflow-hidden md:overflow-visible">{children}</div>
-                <div className=" flex items-center justify-between mt-9 ml-6 md:mr-20 md:mt-5 text-black cursor-pointer md:text-[34px] text-[30px]">
+                <div
+                    className=" flex items-center justify-between mt-9 ml-6 md:mr-20 md:mt-5 text-black cursor-pointer md:text-[34px] text-[30px]">
                     <span><IoNotificationsOutline/></span>
                 </div>
             </div>

@@ -1,12 +1,15 @@
-import React from 'react';
-import OrdersPage from "@/components/module/OrdersPage";
+"use client";
+import React, {useEffect} from 'react';
+import { useRouter } from "next/navigation";
+
 
 function Page(props) {
-    return (
-      <>
-          <OrdersPage/>
-      </>
-    );
+    const router = useRouter();
+
+    useEffect(() => {
+        router.replace("/User_Dashboard/orders/current");
+    }, []);
+    return null
 }
 
 export default Page;
