@@ -1,7 +1,7 @@
 "use client"
 import React, {useState} from 'react';
-import ShoppingCard from "@/components/template/ShoppingCard";
-import ShippingInfo from "@/components/template/ShippingInfo";
+import ShoppingCard from "@/components/client/template/ShoppingCard";
+import ShippingInfo from "@/components/client/template/ShippingInfo";
 import Layout from "@/app/Shopping_Cart/layout";
 import {useSelector} from "react-redux";
 

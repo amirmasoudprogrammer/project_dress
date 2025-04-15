@@ -1,5 +1,5 @@
 import React from 'react';
-import ReturnedPage from "@/components/module/ReturnedPage";
+import ReturnedPage from "@/components/client/module/ReturnedPage";
 
 function Page(props) {
     return (

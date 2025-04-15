@@ -2,8 +2,8 @@
 import React, {useEffect, useState} from 'react';
 import {useGetProductsQuery} from "@/redux/features/api/apiSlice";
 import {useParams} from "next/navigation";
-import ProductsDetail from "@/components/template/ProductsDetail";
-import LoadingOrError from "@/components/module/LoadingOrError";
+import ProductsDetail from "@/components/client/template/ProductsDetail";
+import LoadingOrError from "@/components/client/module/LoadingOrError";
 
 function Page() {
     const params = useParams();

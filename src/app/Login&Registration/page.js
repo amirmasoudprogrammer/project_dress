@@ -1,5 +1,5 @@
 import React from 'react';
-import Login from "@/components/template/Login";
+import Login from "@/components/client/template/Login";
 
 function Page(props) {
     return (

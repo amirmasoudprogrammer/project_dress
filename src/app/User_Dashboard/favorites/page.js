@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import FavoritesPage from "@/components/module/FavoritesPage";
+import FavoritesPage from "@/components/client/module/FavoritesPage";
 import {useSelector} from "react-redux";
 
 function Page(props) {

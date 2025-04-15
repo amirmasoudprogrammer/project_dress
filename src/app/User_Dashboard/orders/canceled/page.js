@@ -1,5 +1,5 @@
 import React from 'react';
-import CanceledPage from "@/components/module/CanceledPage";
+import CanceledPage from "@/components/client/module/CanceledPage";
 
 function Page(props) {
     return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import AboutPage from "@/components/template/AboutPage";
+import AboutPage from "@/components/client/template/AboutPage";
 
 function Page(props) {
     return (

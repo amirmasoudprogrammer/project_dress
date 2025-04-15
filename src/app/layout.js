@@ -1,6 +1,6 @@
 import "./globals.css";
 import Providers from "@/redux/Providers";
-import LayoutWrapper from "@/components/layout/LayoutWrapper";
+import LayoutWrapper from "@/components/client/layout/LayoutWrapper";
 
 export const metadata = {
     title: "فروشگاه لباس",

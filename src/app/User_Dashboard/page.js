@@ -1,5 +1,5 @@
 import React from 'react';
-import UserPage from "@/components/template/UserPage";
+import UserPage from "@/components/client/template/UserPage";
 
 function Page(props) {
     return (
