@@ -68,7 +68,7 @@ function AboutPage(props) {
                     </div>
                 </div>
                 <div>
-                    <Image src="/7515320-removebg-preview 1.png" width={302} height={302} alt="image"/>
+                    <Image src="/image/7515320-removebg-preview 1.png" width={302} height={302} alt="image"/>
                 </div>
             </div>
         </div>

@@ -22,25 +22,25 @@ function BannerItem2(props) {
             >
                 <SwiperSlide>
                     <Link href="/Products" className="flex items-center">
-                            <Image className="w-full h-auto object-cover" src="/unsplash_j5L0X1ioajw.png" alt="Slide 1"
+                            <Image className="w-full h-auto object-cover" src="/image/unsplash_j5L0X1ioajw.png" alt="Slide 1"
                                    width={500} height={500}/>
-                            <Image className="w-full h-auto object-cover" src="/unsplash_jRdXolKRYUU.png" alt="Slide 2"
+                            <Image className="w-full h-auto object-cover" src="/image/unsplash_jRdXolKRYUU.png" alt="Slide 2"
                                    width={500} height={600}/>
                     </Link>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href="/Products" className="flex items-center">
-                            <Image className="w-full h-auto object-cover" src="/unsplash_j5L0X1ioajw.png" alt="Slide 1"
+                            <Image className="w-full h-auto object-cover" src="/image/unsplash_j5L0X1ioajw.png" alt="Slide 1"
                                    width={500} height={500}/>
-                            <Image className="w-full h-auto object-cover" src="/unsplash_jRdXolKRYUU.png" alt="Slide 2"
+                            <Image className="w-full h-auto object-cover" src="/image/unsplash_jRdXolKRYUU.png" alt="Slide 2"
                                    width={500} height={500}/>
                     </Link>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href="/Products" className="flex items-center">
-                            <Image className="w-full h-auto object-cover" src="/unsplash_j5L0X1ioajw.png" alt="Slide 1"
+                            <Image className="w-full h-auto object-cover" src="/image/unsplash_j5L0X1ioajw.png" alt="Slide 1"
                                    width={500} height={500}/>
-                            <Image className="w-full h-auto object-cover" src="/unsplash_jRdXolKRYUU.png" alt="Slide 2"
+                            <Image className="w-full h-auto object-cover" src="/image/unsplash_jRdXolKRYUU.png" alt="Slide 2"
                                    width={500} height={500}/>
                     </Link>
                 </SwiperSlide>

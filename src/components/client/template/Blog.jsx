@@ -13,16 +13,16 @@ function Blog() {
     const swiperRef = useRef(null);
 
     const slides = [
-        { id: 1, src: "/Group 858.svg", alt: "Slide 1" },
-        { id: 2, src: "/Group 858.svg", alt: "Slide 2" },
-        { id: 3, src: "/Group 858.svg", alt: "Slide 3" },
+        { id: 1, src: "/image/Group 858.svg", alt: "Slide 1" },
+        { id: 2, src: "/image/Group 858.svg", alt: "Slide 2" },
+        { id: 3, src: "/image/Group 858.svg", alt: "Slide 3" },
     ];
 
     const articles = [
-        { id: 1, src: "/Rectangle 28.png", title: "روش شستشو و نگهداری لباس شب", desc: "مادر رابطه با اتو کشی لباس‌ها و روش نگهداری..." },
-        { id: 2, src: "/Rectangle 28 (1).png", title: "روش شستشو و نگهداری لباس شب", desc: "مادر رابطه با اتو کشی لباس‌ها و روش نگهداری..." },
-        { id: 3, src: "/Rectangle 28 (2).png", title: "روش شستشو و نگهداری لباس شب", desc: "مادر رابطه با اتو کشی لباس‌ها و روش نگهداری..." },
-        { id: 4, src: "/Rectangle 28 (3).png", title: "روش شستشو و نگهداری لباس شب", desc: "مادر رابطه با اتو کشی لباس‌ها و روش نگهداری..." },
+        { id: 1, src: "/image/Rectangle 28.png", title: "روش شستشو و نگهداری لباس شب", desc: "مادر رابطه با اتو کشی لباس‌ها و روش نگهداری..." },
+        { id: 2, src: "/image/Rectangle 28 (1).png", title: "روش شستشو و نگهداری لباس شب", desc: "مادر رابطه با اتو کشی لباس‌ها و روش نگهداری..." },
+        { id: 3, src: "/image/Rectangle 28 (2).png", title: "روش شستشو و نگهداری لباس شب", desc: "مادر رابطه با اتو کشی لباس‌ها و روش نگهداری..." },
+        { id: 4, src: "/image/Rectangle 28 (3).png", title: "روش شستشو و نگهداری لباس شب", desc: "مادر رابطه با اتو کشی لباس‌ها و روش نگهداری..." },
     ];
 
     return (
@@ -40,7 +40,7 @@ function Blog() {
                     >
                         {slides.map((slide) => (
                             <SwiperSlide key={slide.id} className="mr-1 mt-10 md:mt-0 md:mr-0">
-                                <Link href="@/components/client/template/Blog">
+                                <Link href="/Blog">
                                     <Image
                                         className="w-[312px] md:w-[879px] h-auto object-cover"
                                         src={slide.src}
@@ -75,7 +75,7 @@ function Blog() {
                                     <p className="text-[#626262] dark:text-white mr-5 md:mr-0 text-[10px] md:text-sm mt-2 mb-3">
                                         {article.desc}
                                     </p>
-                                    <Link className="text-[#6E8E59] dark:text-green-700 mr-5 md:mr-0 text-[10px] md:text-sm" href="@/components/client/template/Blog">
+                                    <Link className="text-[#6E8E59] dark:text-green-700 mr-5 md:mr-0 text-[10px] md:text-sm" href="/Blog">
                                         مشاهده مطلب
                                     </Link>
                                 </div>
@@ -101,7 +101,7 @@ function Blog() {
                     </button>
                 </div>
                 <div className=" relative right-2 md:right-0 md:flex text-white rounded-lg flex h-[48px] items-center justify-center mt-10   md:mr-0  bg-[#6E8E59] w-[250px]  md:w-[149px]">
-                    <Link href="@/components/client/template/Blog" className="ml-2">
+                    <Link href="/Blog" className="ml-2">
                         مشاهده همه
                     </Link>
                     <FaAngleLeft color="white"/>

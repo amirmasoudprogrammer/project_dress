@@ -6,6 +6,7 @@ import { RiFileListFill } from "react-icons/ri";
 import { VscCheck } from "react-icons/vsc";
 import { IoMdClose } from "react-icons/io";
 import { IoIosSearch } from "react-icons/io";
+import NamePages from "@/components/admin/modules/NamePages";
 
 function OrdersPage(props) {
     const [status, setStatus] = useState('');
@@ -15,9 +16,9 @@ function OrdersPage(props) {
 
     return (
         <div className="mt-28 z-10">
-            <div>
-                <span className="text-black mr-8 text-[25px] font-bold">مدیرت سفارشات</span>
-            </div>
+            <h1 className="text-3xl font-extrabold text-gray-800 text-center mb-10">
+                🛒 مدیریت سفارشات
+            </h1>
 
             <div className='mt-5 flex items-center justify-between mr-8 ml-8'>
                 <div className="flex items-center justify-center p-1 w-[200px] h-[70px] shadow-xl cursor-pointer border border-slate-200 rounded transition-all duration-500 hover:shadow-sm">

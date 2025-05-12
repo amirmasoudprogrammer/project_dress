@@ -34,7 +34,7 @@ function ReturnedPage(props) {
                     <div>
                         <Image
                             className="rounded-xl"
-                            src="/images1235.png"
+                            src="/image/images1235.png"
                             alt="image"
                             width={50}
                             height={50}
@@ -65,7 +65,7 @@ function ReturnedPage(props) {
                     <div>
                         <Image
                             className="rounded-xl"
-                            src="/images1235.png"
+                            src="/image/images1235.png"
                             alt="image"
                             width={50}
                             height={50}
@@ -83,7 +83,7 @@ function ReturnedPage(props) {
                         <div>
                             <Image
                                 className="rounded-xl"
-                                src="/images1235.png"
+                                src="/image/images1235.png"
                                 alt="image"
                                 width={50}
                                 height={50}
@@ -115,7 +115,7 @@ function ReturnedPage(props) {
                         <div>
                             <Image
                                 className="rounded-xl"
-                                src="/images1235.png"
+                                src="/image/images1235.png"
                                 alt="image"
                                 width={50}
                                 height={50}

@@ -1,43 +1,55 @@
 "use client"
 import React, {useState} from 'react';
 import {HiOutlineArrowLongLeft} from "react-icons/hi2";
-import { motion, AnimatePresence } from 'framer-motion';
-
+import {motion, AnimatePresence} from 'framer-motion';
 
 
 function TicketPageNew(props) {
     const [isVisible, setIsVisible] = useState(true);
     const [showPopup, setShowPopup] = useState(false);
+    const [form, setFormData] = useState({
+        category_id: '',
+        title: '',
+        message: '',
+        priority: 'low',
+        attachments: [],
+    });
     const [faqList] = useState([
         {
-            id:1,
+            id: 1,
             title: "مشتری یابی میکنم و نتیجه خاصی نگرفته ام، باید چه کار کنم؟",
             description: "عدم نتیجه گیری از مشتری یابی به عوامل مختلفی بستگی دارد که باید بررسی شود..."
         },
         {
-            id:2,
+            id: 2,
             title: "مشتری یابی میکنم و نتیجه خاصی نگرفته ام، باید چه کار کنم؟",
             description: "برای شروع نیاز دارید ابتدا خدمات خود را واضح مشخص کنید..."
         },
         {
-            id:3,
+            id: 3,
             title: "مشتری یابی میکنم و نتیجه خاصی نگرفته ام، باید چه کار کنم؟",
             description: "بازار هدف گروهی از مشتریان هستند که به احتمال زیاد از خدمات شما استفاده خواهند کرد..."
         },
         {
-            id:4,
+            id: 4,
             title: "مشتری یابی میکنم و نتیجه خاصی نگرفته ام، باید چه کار کنم؟",
             description: "پیام باید جذاب، کوتاه، و مرتبط با نیاز مشتری نوشته شود..."
         },
         {
-            id:5,
+            id: 5,
             title: "مشتری یابی میکنم و نتیجه خاصی نگرفته ام، باید چه کار کنم؟",
             description: "با دسته‌بندی پاسخ‌ها و مشاهده الگوها، می‌توانید تحلیل بهتری داشته باشید..."
         },
     ]);
     const [selectedFaq, setSelectedFaq] = useState(null);
 
-
+    const handleInputChange = (e) => {
+        const {name, value} = e.target;
+        setFormData((prevForm) => ({
+            ...prevForm,
+            [name]: value
+        }));
+    };
 
 
     return (
@@ -99,20 +111,23 @@ function TicketPageNew(props) {
                         </p>
                     </div>
                 </div>
-                <div className="relative left-96 mt-10 justify-start mr-5  ml-auto flex items-end">
+                <div className="relative  mt-10 justify-start mr-5  ml-auto flex items-end">
                     <div>
                         <span className="text-black">پیام پشتیبانی جدید</span>
                         <div className="flex items-start justify-start mt-8 mb-10">
                             <form>
                                 <div className="text-black flex flex-col items-start justify-start">
                                     <label className="text-black" htmlFor="title">عنوان تیکت</label>
-                                    <input
-                                        className="w-[800px] mt-2 h-[35px] outline-0 border border-slate-400 rounded "
-                                        type="text"/>
+                                    <input name="title"
+                                           className="w-[800px] mt-2 h-[35px] outline-0 border border-slate-400 rounded"
+                                           value={form.title} type="text" onChange={handleInputChange}/>
                                 </div>
                                 <div className="text-black flex flex-col items-start justify-start">
                                     <label className="text-black" htmlFor="department">دپارتمان</label>
-                                    <select id="department" name="department"
+                                    <select value={form.category_id}
+                                            onChange={handleInputChange}
+                                            id="department"
+                                            name="category_id"
                                             className="w-[800px] mt-2 h-[35px] outline-0 border border-slate-400 rounded">
                                         <option value="">لطفاً یک دپارتمان را انتخاب کنید</option>
                                         <option value="support">پشتیبانی</option>
@@ -133,8 +148,10 @@ function TicketPageNew(props) {
                                 </div>
                                 <div className="text-black flex flex-col items-start justify-start">
                                     <label className="text-black" htmlFor="title">پیام</label>
-                                    <textarea
-                                        className="w-[800px] mt-2 h-[279px] outline-0 border border-slate-400 rounded resize-none"
+                                    <textarea name="message"
+                                              value={form.message}
+                                              onChange={handleInputChange}
+                                              className="w-[800px] mt-2 h-[279px] outline-0 border border-slate-400 rounded resize-none"
                                     ></textarea>
                                 </div>
                                 <div
@@ -155,9 +172,10 @@ function TicketPageNew(props) {
                     </div>
                     <div className="mt-5 ">
                         {faqList.map((faq, index) => (
-                            <div key={faq.id} className="border border-slate-400 mt-2 rounded w-[240px] m-auto h-[74px] p-2">
+                            <div key={faq.id}
+                                 className="border border-slate-400 mt-2 rounded w-[240px] m-auto h-[74px] p-2">
                                 <span className="text-black text-[12px] font-medium">{faq.title}</span>
-                                <div   onClick={() => {
+                                <div onClick={() => {
                                     setSelectedFaq(faq);
                                     setShowPopup(true);
                                 }} className="flex mr-10 -mt-5 items-center justify-center text-[#007AFF]">
@@ -174,13 +192,20 @@ function TicketPageNew(props) {
                                 <div className="text-black flex mr-2 flex-col items-start justify-start">
                                     <label className="text-black text-[12px] " htmlFor="title">عنوان تیکت</label>
                                     <input
+                                        name="title"
+                                        value={form.title}
+                                        onChange={handleInputChange}
                                         className=" mt-2 w-[240px] outline-0 border border-slate-400 rounded "
                                         type="text"/>
                                 </div>
                                 <div className="text-black mr-2 flex flex-col mt-2 items-start justify-start">
                                     <label className="text-black text-[12px]" htmlFor="department">دپارتمان</label>
-                                    <select id="department" name="department"
-                                            className=" mt-2 w-[240px] text-[12px] outline-0 border border-slate-400 rounded">
+                                    <select
+                                        name="category_id"
+                                        value={form.category_id}
+                                        onChange={handleInputChange}
+                                        id="department"
+                                        className=" mt-2 w-[240px] text-[12px] outline-0 border border-slate-400 rounded">
                                         <option value="">لطفاً یک دپارتمان را انتخاب کنید</option>
                                         <option value="support">پشتیبانی</option>
                                         <option value="sales">فروش</option>
@@ -201,11 +226,12 @@ function TicketPageNew(props) {
                                 <div className="text-black mr-2 flex flex-col items-start justify-start">
                                     <label className="text-black text-[12px]" htmlFor="title">پیام</label>
                                     <textarea
-                                        className=" mt-2 w-[240px] h-[125px] outline-0 border border-slate-400 rounded resize-none"
-                                    ></textarea>
+                                        name="message"
+                                        value={form.message}
+                                        onChange={handleInputChange}
+                                        className=" mt-2 w-[240px] h-[125px] outline-0 border border-slate-400 rounded resize-none"></textarea>
                                 </div>
-                                <div
-                                    className="w-[166px] h-[36px] bg-[#007AFF] mt-5 flex items-center justify-center rounded mr-auto">
+                                <div className="w-[166px] h-[36px] bg-[#007AFF] mt-5 flex items-center justify-center rounded mr-auto">
                                     <button>ارسال پیام</button>
                                 </div>
                             </form>
@@ -214,16 +240,16 @@ function TicketPageNew(props) {
                     <AnimatePresence>
                         {showPopup && selectedFaq && (
                             <motion.div
-                                initial={{ opacity: 0, y: 50 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 50 }}
+                                initial={{opacity: 0, y: 50}}
+                                animate={{opacity: 1, y: 0}}
+                                exit={{opacity: 0, y: 50}}
                                 className="block md:hidden fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"
                             >
                                 <motion.div
-                                    initial={{ scale: 0.8 }}
-                                    animate={{ scale: 1 }}
-                                    exit={{ scale: 0.8 }}
-                                    transition={{ type: 'spring', stiffness: 300 }}
+                                    initial={{scale: 0.8}}
+                                    animate={{scale: 1}}
+                                    exit={{scale: 0.8}}
+                                    transition={{type: 'spring', stiffness: 300}}
                                     className="bg-white p-5 rounded-xl w-[300px] shadow-xl"
                                 >
                                     <h2 className="text-black font-bold text-lg mb-3">{selectedFaq.title}</h2>

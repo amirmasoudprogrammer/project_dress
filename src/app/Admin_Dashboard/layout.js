@@ -1,5 +1,5 @@
 "use client";
-import React , {useState} from 'react';
+import React, {useState} from 'react';
 import Image from "next/image";
 import {IoIosMenu, IoIosSearch} from "react-icons/io";
 import {AiFillDashboard} from "react-icons/ai";
@@ -15,6 +15,8 @@ import {TfiBag} from "react-icons/tfi";
 import {IoLogoWechat, IoSettingsOutline, IoTicketSharp} from "react-icons/io5";
 import {FaRegBell, FaRegFlag, FaStar} from "react-icons/fa";
 import {GiHamburgerMenu, GiVerticalBanner} from "react-icons/gi";
+import Profile from "@/components/admin/modules/Profile";
+import AdminGuard from "@/app/Admin_Dashboard/AdminGuard";
 
 function AdminLayout({children}) {
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -22,11 +24,18 @@ function AdminLayout({children}) {
     const [isDashboardOpen, setIsDashboardOpen] = useState(false);
     const [activeDashboard, setActiveDashboard] = useState("");
     const [activeItem, setActiveItem] = useState("");
+    const [activePanel, setActivePanel] = useState(false)
+
+
+    const startClick = () => {
+        setActivePanel(!activePanel)
+    }
 
     return (
+        <AdminGuard>
         <div className="relative flex items-start justify-between">
             {/* Sidebar */}
-            <div className={`transition-all duration-300 h-[80vw] bg-[#333] ${isCollapsed ? "w-[50px]" : "w-[240px]"}`}>
+            <div className={`transition-all duration-300 h-[95vw] bg-[#333] ${isCollapsed ? "w-[50px]" : "w-[240px]"}`}>
                 <p className="text-white text-center p-2 font-bold text-[21px] cursor-pointer bg-[#3c8dbc]/80 h-[50px]">
                     {isCollapsed ? "پنل" : "کنترل پنل ادمین"}
                 </p>
@@ -34,10 +43,10 @@ function AdminLayout({children}) {
                 {/* یوزر */}
                 <div className="flex items-center justify-center mt-3">
                     {isCollapsed ? (
-                        <Image className="rounded-full" src="/black.png" width={40} height={40} alt="icon"/>
+                        <Image className="rounded-full" src="/image/photo_۲۰۲۵-۰۴-۲۵_۱۸-۴۹-۲۰.jpg" width={40} height={40} alt="icon"/>
                     ) : (
                         <>
-                            <Image className="rounded-full" src="/black.png" width={50} height={50} alt="icon"/>
+                            <Image className="rounded-full h-[55px]" src="/image/photo_۲۰۲۵-۰۴-۲۵_۱۸-۴۹-۲۰.jpg" width={50} height={50} alt="icon"/>
                             <div className="-mt-1">
                                 <span className="text-[14px] font-bold mr-3">امیر مسعود اسدی طلب</span>
                                 <div className="flex items-center justify-start mr-2 mt-1">
@@ -78,23 +87,27 @@ function AdminLayout({children}) {
                     {isCollapsed ? (
                         <>
                             <div className="relative">
-                                <div  onClick={() => setActiveItem("Dashboard")} className={`relative group cursor-pointer flex items-center justify-center mt-5 ${activeItem === "Dashboard" ? "bg-[#1e282c]" : ""} p-3`}>
+                                <div onClick={() => setActiveItem("Dashboard")}
+                                     className={`relative group cursor-pointer flex items-center justify-center mt-5 ${activeItem === "Dashboard" ? "bg-[#1e282c]" : ""} p-3`}>
                                     <AiFillDashboard/>
                                     {activeItem === "Dashboard" && (
-                                    <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                                        <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
                                     )}
-                                    <div className="hidden group-hover:block absolute rounded w-[200px] h-[100px]  right-[51px]  -top-2">
+                                    <div
+                                        className="hidden group-hover:block absolute rounded w-[200px] h-[100px] z-[90]  right-[51px] -top-2">
                                         <div
                                             className="flex items-center justify-around mt-2 bg-[#1e282c] rounded p-3 ">
                                             <span>داشبرد</span>
                                             <p><FaAngleRight/></p>
                                         </div>
                                         <div className="p-3 rounded bg-[#2c3b41]">
-                                            <Link href="/Admin_Dashboard/Dashboard/DashboardOne" className="flex items-center text-[14px]">
+                                            <Link href="/Admin_Dashboard/Dashboard/DashboardOne"
+                                                  className="flex items-center text-[14px]">
                                                 <FaRegCircle/>
                                                 <span className="mr-2">داشبرد اول</span>
                                             </Link>
-                                            <Link href="/Admin_Dashboard/Dashboard/DboaashrdTwo" className="flex items-center text-[14px] mt-2">
+                                            <Link href="/Admin_Dashboard/Dashboard/DboaashrdTwo"
+                                                  className="flex items-center text-[14px] mt-2">
                                                 <FaRegCircle/>
                                                 <span className="mr-2">داشبرد دوم</span>
                                             </Link>
@@ -109,10 +122,10 @@ function AdminLayout({children}) {
                             <div
                                 className={`flex items-center justify-between p-3 cursor-pointer transition-colors relative ${
                                     activeItem === "Dashboard" ? "bg-[#1e282c]" : ""
-                                }`}                                onClick={() =>{
-                                    setIsDashboardOpen(!isDashboardOpen);
-                                    setActiveItem("Dashboard"); // ✅ اضافه شد
-                                } }>
+                                }`} onClick={() => {
+                                setIsDashboardOpen(!isDashboardOpen);
+                                setActiveItem("Dashboard");
+                            }}>
                                 <div className="flex items-center">
                                     <AiFillDashboard/>
                                     <span className="mr-2 font-bold text-[12px]">داشبورد</span>
@@ -120,12 +133,12 @@ function AdminLayout({children}) {
                                 <div className="relative flex items-center justify-end">
                                     {isDashboardOpen ? <FaAngleUp/> : <FaAngleDown/>}
                                     {activeItem === "Dashboard" && (
-                                    <div className=" absolute right-6 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                                        <div className=" absolute right-6 bg-[#00c0ef] w-[4px] h-[40px]"></div>
                                     )}
                                 </div>
 
                             </div>
-                            {/* زیر منو با انیمیشن Framer Motion */}
+
                             <AnimatePresence initial={false}>
                                 {isDashboardOpen && (
                                     <motion.div
@@ -167,9 +180,11 @@ function AdminLayout({children}) {
                 {/*مدیریت محصولات*/}
                 {isCollapsed ? (
                     <>
-                        <Link  onClick={() => setActiveItem("product")} href="/Admin_Dashboard/Product" className={`relative group flex items-center mt-2 ${activeItem === "product" ? "bg-[#1e282c]" : ""}  p-3`}>
+                        <Link onClick={() => setActiveItem("product")} href="/Admin_Dashboard/Product"
+                              className={`relative group flex items-center mt-2 ${activeItem === "product" ? "bg-[#1e282c]" : ""}  p-3`}>
                             <BsFillBoxFill/>
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center z-[90] pr-2 rounded">
                                 مدیریت محصولات
                             </div>
                             {activeItem === "product" && (
@@ -178,7 +193,8 @@ function AdminLayout({children}) {
                         </Link>
                     </>
                 ) : (
-                    <Link onClick={() => setActiveItem("product")} href="/Admin_Dashboard/Product" className={`relative flex items-center mt-2 ${activeItem === "product" ? "bg-[#1e282c]" : ""}  p-3`}>
+                    <Link onClick={() => setActiveItem("product")} href="/Admin_Dashboard/Product"
+                          className={`relative flex items-center mt-2 ${activeItem === "product" ? "bg-[#1e282c]" : ""}  p-3`}>
                         <BsFillBoxFill/>
                         <span className="text-[12px] mr-2">مدیریت محصولات</span>
                         {activeItem === "product" && (
@@ -191,18 +207,26 @@ function AdminLayout({children}) {
                 {/* دست بندی ها*/}
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/Categories" className="relative group flex items-center mt-2  p-3">
-                            <BiSolidCategory />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                        <Link onClick={() => setActiveItem("Categories")} href="/Admin_Dashboard/Categories"
+                              className="relative group flex items-center mt-2  p-3">
+                            <BiSolidCategory/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] z-[90] flex items-center pr-2 rounded">
                                 دست بندی ها
                             </div>
+                            {activeItem === "Categories" && (
+                                <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/Categories" className="relative flex items-center mt-2  p-3">
-                        <BiSolidCategory />
+                    <Link onClick={() => setActiveItem("Categories")} href="/Admin_Dashboard/Categories"
+                          className={`relative flex items-center mt-2 ${activeItem === "Categories" ? "bg-[#1e282c]" : ""}  p-3`}>
+                        <BiSolidCategory/>
                         <span className="text-[12px] mr-2">دست بندی ها</span>
-
+                        {activeItem === "Categories" && (
+                            <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
                 )}
 
@@ -210,18 +234,26 @@ function AdminLayout({children}) {
 
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/Orders" className="relative group flex items-center mt-2  p-3">
-                            <MdOutlineIntegrationInstructions />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                        <Link onClick={() => setActiveItem("Orders")} href="/Admin_Dashboard/Orders"
+                              className="relative group flex items-center mt-2  p-3">
+                            <MdOutlineIntegrationInstructions/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px]  z-[90] right-[50px] flex items-center pr-2 rounded">
                                 مدیریت سفارشات
                             </div>
+                            {activeItem === "Orders" && (
+                                <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/Orders" className="relative flex items-center mt-2  p-3">
-                        <MdOutlineIntegrationInstructions />
+                    <Link onClick={() => setActiveItem("Orders")} href="/Admin_Dashboard/Orders"
+                          className={`relative flex ${activeItem === "Orders" ? "bg-[#1e282c]" : ""} items-center mt-2  p-3`}>
+                        <MdOutlineIntegrationInstructions/>
                         <span className="text-[12px] mr-2">مدیریت سفارشات</span>
-
+                        {activeItem === "Orders" && (
+                            <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
                 )}
 
@@ -229,17 +261,26 @@ function AdminLayout({children}) {
                 {/* مدیریت کاربران*/}
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/Users" className="relative group flex items-center mt-2  p-3">
-                            <PiUsersThreeBold />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-3 rounded">
+                        <Link onClick={() => setActiveItem("Users")} href="/Admin_Dashboard/Users"
+                              className="relative group flex items-center mt-2  p-3">
+                            <PiUsersThreeBold/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px]  z-[90] flex items-center pr-3 rounded">
                                 مدیریت کاربران
                             </div>
+                            {activeItem === "Users" && (
+                                <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/Users" className="relative flex items-center mt-2  p-3">
-                        <PiUsersThreeBold />
+                    <Link onClick={() => setActiveItem("Users")} href="/Admin_Dashboard/Users"
+                          className={`relative ${activeItem === "Users" ? "bg-[#1e282c]" : ""} flex items-center mt-2  p-3`}>
+                        <PiUsersThreeBold/>
                         <span className="text-[12px] mr-2">مدیریت کاربران</span>
+                        {activeItem === "Users" && (
+                            <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
                 )}
 
@@ -248,37 +289,54 @@ function AdminLayout({children}) {
 
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/Warehouse" className="relative group flex items-center mt-2  p-3">
-                            <LuWarehouse />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                        <Link onClick={() => setActiveItem("Warehouse")} href="/Admin_Dashboard/Warehouse"
+                              className="relative group flex items-center mt-2  p-3">
+                            <LuWarehouse/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] z-[90] flex items-center pr-2 rounded">
                                 موجودی انبار
                             </div>
+                            {activeItem === "Warehouse" && (
+                                <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/Warehouse" className="relative flex items-center mt-2  p-3">
-                        <LuWarehouse />
+                    <Link onClick={() => setActiveItem("Warehouse")} href="/Admin_Dashboard/Warehouse"
+                          className={`relative flex ${activeItem === "Warehouse" ? "bg-[#1e282c]" : ""} items-center mt-2  p-3`}>
+                        <LuWarehouse/>
                         <span className="text-[12px] mr-2">موجودی انبار</span>
+                        {activeItem === "Warehouse" && (
+                            <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
+
                 )}
 
 
                 {/*تخفیفات*/}
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/Discounts" className="relative group flex items-center mt-2  p-3">
-                            <MdDiscount />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                        <Link onClick={() => setActiveItem("Discounts")} href="/Admin_Dashboard/Discounts"
+                              className="relative group flex items-center mt-2  p-3">
+                            <MdDiscount/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] z-[90] flex items-center pr-2 rounded">
                                 تخفیفات
                             </div>
+                            {activeItem === "Discounts" && (
+                                <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/Discounts" className="relative flex items-center mt-2  p-3">
-                        <MdDiscount />
+                    <Link onClick={() => setActiveItem("Discounts")} href="/Admin_Dashboard/Discounts"
+                          className={`relative flex ${activeItem === "Discounts" ? "bg-[#1e282c]" : ""} items-center mt-2  p-3`}>
+                        <MdDiscount/>
                         <span className="text-[12px] mr-2">تخفیفات</span>
-
-
+                        {activeItem === "Discounts" && (
+                            <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
                 )}
 
@@ -286,18 +344,26 @@ function AdminLayout({children}) {
                 {/*مدیریت وبلاگ*/}
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/Blogs" className="relative group flex items-center mt-2  p-3">
-                            <PiGraphDuotone />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                        <Link onClick={() => setActiveItem("Blogs")} href="/Admin_Dashboard/Blogs"
+                              className="relative group flex items-center mt-2  p-3">
+                            <PiGraphDuotone/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] z-[90] right-[50px] flex items-center pr-2 rounded">
                                 مدیریت وبلاگ
                             </div>
+                            {activeItem === "Blogs" && (
+                                <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/Blogs" className="relative flex items-center mt-2  p-3">
-                        <PiGraphDuotone />
+                    <Link onClick={() => setActiveItem("Blogs")} href="/Admin_Dashboard/Blogs"
+                          className={`relative flex ${activeItem === "Blogs" ? "bg-[#1e282c]" : ""} items-center mt-2  p-3`}>
+                        <PiGraphDuotone/>
                         <span className="text-[12px] mr-2">مدیریت وبلاگ</span>
-
+                        {activeItem === "Blogs" && (
+                            <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
                 )}
 
@@ -305,93 +371,131 @@ function AdminLayout({children}) {
                 {/*مدیریت صفحات*/}
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/Pages" className="relative group flex items-center mt-2  p-3">
-                            <TfiBag />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                        <Link onClick={() => setActiveItem("Pages")} href="/Admin_Dashboard/Pages"
+                              className="relative group flex items-center mt-2  p-3">
+                            <TfiBag/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] z-[90] flex items-center pr-2 rounded">
                                 مدیریت صفحات
                             </div>
+                            {activeItem === "Pages" && (
+                                <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/Pages" className="relative flex items-center mt-2  p-3">
-                        <TfiBag />
+                    <Link onClick={() => setActiveItem("Pages")} href="/Admin_Dashboard/Pages"
+                          className={`relative flex ${activeItem === "Pages" ? "bg-[#1e282c]" : ""} items-center mt-2  p-3`}>
+                        <TfiBag/>
                         <span className="text-[12px] mr-2">مدیریت صفحات</span>
-
-
+                        {activeItem === "Pages" && (
+                            <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
                 )}
 
                 {/*مدیریت نظرات*/}
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/Comments" className="relative group flex items-center mt-2  p-3">
-                            <IoLogoWechat />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                        <Link onClick={() => setActiveItem("Comments")} href="/Admin_Dashboard/Comments"
+                              className="relative group flex items-center mt-2  p-3">
+                            <IoLogoWechat/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] z-[90] flex items-center pr-2 rounded">
                                 مدیریت نظرات
                             </div>
+                            {activeItem === "Comments" && (
+                                <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/Comments" className="relative flex items-center mt-2  p-3">
-                        <IoLogoWechat />
+                    <Link onClick={() => setActiveItem("Comments")} href="/Admin_Dashboard/Comments"
+                          className={`relative flex ${activeItem === "Comments" ? "bg-[#1e282c]" : ""} items-center mt-2  p-3`}>
+                        <IoLogoWechat/>
                         <span className="text-[12px] mr-2">مدیریت نظرات</span>
-
+                        {activeItem === "Comments" && (
+                            <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
                 )}
 
                 {/*نظرات محصولات*/}
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/Products_Comments" className="relative group flex items-center mt-2  p-3">
-                            <FaStar />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                        <Link onClick={() => setActiveItem("Products_Comments")}
+                              href="/Admin_Dashboard/Products_Comments"
+                              className="relative group flex items-center mt-2  p-3">
+                            <FaStar/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] z-[90] flex items-center pr-2 rounded">
                                 نظرات محصولات
                             </div>
+                            {activeItem === "Products_Comments" && (
+                                <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/Products_Comments" className="relative flex items-center mt-2  p-3">
-                        <FaStar />
-
+                    <Link onClick={() => setActiveItem("Products_Comments")} href="/Admin_Dashboard/Products_Comments"
+                          className={`relative flex ${activeItem === "Products_Comments" ? "bg-[#1e282c]" : ""} items-center mt-2  p-3`}>
+                        <FaStar/>
                         <span className="text-[12px] mr-2">نظرات محصولات</span>
-
+                        {activeItem === "Products_Comments" && (
+                            <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
                 )}
 
                 {/*مدیریت بنرها*/}
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/Banners" className="relative group flex items-center mt-2  p-3">
-                            <GiVerticalBanner />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                        <Link onClick={() => setActiveItem("Banners")} href="/Admin_Dashboard/Banners"
+                              className="relative group flex items-center mt-2  p-3">
+                            <GiVerticalBanner/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] z-[90] flex items-center pr-2 rounded">
                                 مدیریت بنرها
                             </div>
+                            {activeItem === "Banners" && (
+                                <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/Banners" className="relative flex items-center mt-2  p-3">
-                        <GiVerticalBanner />
+                    <Link onClick={() => setActiveItem("Banners")} href="/Admin_Dashboard/Banners"
+                          className={`relative flex ${activeItem === "Banners" ? "bg-[#1e282c]" : ""} items-center mt-2  p-3`}>
+                        <GiVerticalBanner/>
                         <span className="text-[12px] mr-2">مدیریت بنرها</span>
-
-
+                        {activeItem === "Banners" && (
+                            <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
                 )}
 
                 {/*تیکت های پشتیبانی*/}
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/ticket" className="relative group flex items-center mt-2  p-3">
-                            <IoTicketSharp />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                        <Link onClick={() => setActiveItem("ticket")} href="/Admin_Dashboard/ticket"
+                              className="relative group flex items-center mt-2  p-3">
+                            <IoTicketSharp/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] z-[90] right-[50px] flex items-center pr-2 rounded">
                                 تیکت های پشتیبانی
                             </div>
+                            {activeItem === "ticket" && (
+                                <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/ticket" className="relative flex items-center mt-2  p-3">
-                        <IoTicketSharp />
+                    <Link onClick={() => setActiveItem("ticket")} href="/Admin_Dashboard/ticket"
+                          className={`relative flex ${activeItem === "ticket" ? "bg-[#1e282c]" : ""} items-center mt-2  p-3`}>
+                        <IoTicketSharp/>
                         <span className="text-[12px] mr-2">تیکت های پشتیبانی</span>
-
+                        {activeItem === "ticket" && (
+                            <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
                 )}
 
@@ -399,38 +503,54 @@ function AdminLayout({children}) {
                 {/*مدیریت منو ها*/}
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/Menus" className="relative group flex items-center mt-2  p-3">
-                            <IoIosMenu />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                        <Link onClick={() => setActiveItem("Menus")} href="/Admin_Dashboard/Menus"
+                              className="relative group flex items-center mt-2  p-3">
+                            <IoIosMenu/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] z-[90] right-[50px] flex items-center pr-2 rounded">
                                 مدیریت منو ها
                             </div>
+                            {activeItem === "Menus" && (
+                                <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/Menus" className="relative flex items-center mt-2  p-3">
-                        <IoIosMenu />
+                    <Link onClick={() => setActiveItem("Menus")} href="/Admin_Dashboard/Menus"
+                          className={`relative flex ${activeItem === "Menus" ? "bg-[#1e282c]" : ""} items-center mt-2  p-3`}>
+                        <IoIosMenu/>
                         <span className="text-[12px] mr-2">مدیریت منو ها</span>
-
+                        {activeItem === "Menus" && (
+                            <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
                 )}
 
                 {/*تنظیمات*/}
                 {isCollapsed ? (
                     <>
-                        <Link href="/Admin_Dashboard/Settings" className="relative group flex items-center mt-2  p-3">
-                            <IoSettingsOutline />
-                            <div className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] flex items-center pr-2 rounded">
+                        <Link onClick={() => setActiveItem("Settings")} href="/Admin_Dashboard/Settings"
+                              className="relative group flex items-center mt-2  p-3">
+                            <IoSettingsOutline/>
+                            <div
+                                className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] right-[50px] z-[90] flex items-center pr-2 rounded">
                                 تنظیمات
                             </div>
+                            {activeItem === "Settings" && (
+                                <div className="absolute right-[47px] bg-red-500 w-[3px] h-[40px]"></div>
+                            )}
                         </Link>
                     </>
                 ) : (
-                    <Link href="/Admin_Dashboard/Settings" className="relative flex items-center mt-2  p-3">
-                        <IoSettingsOutline />
+                    <Link onClick={() => setActiveItem("Settings")} href="/Admin_Dashboard/Settings"
+                          className={`relative flex  ${activeItem === "Settings" ? "bg-red-500" : ""}  items-center mt-2  p-3`}>
+                        <IoSettingsOutline/>
                         <span className="text-[12px] mr-2">تنظیمات</span>
+                        {activeItem === "Settings" && (
+                            <div className=" absolute left-0 bg-red-500 w-[4px] h-[40px]"></div>
+                        )}
                     </Link>
                 )}
-
 
 
             </div>
@@ -462,11 +582,18 @@ function AdminLayout({children}) {
                             <FaRegFlag/>
                         </div>
                         <div
-                            className="ml-10 hover:bg-[rgba(0,0,0,0.1)] flex items-center justify-center cursor-pointer p-3 focus:outline-none">
-                            <Image className="rounded-full ml-2" src="/black.png" width={30} height={30} alt="icon"/>
+                            className="ml-10 hover:bg-[rgba(0,0,0,0.1)] flex items-center justify-center cursor-pointer p-2 focus:outline-none"
+                            onClick={startClick}>
+                            <Image className="rounded-full ml-2 h-[35px]" src="/image/photo_۲۰۲۵-۰۴-۲۵_۱۸-۴۹-۲۰.jpg"
+                                   width={30} height={30} alt="icon"/>
                             <span className="text-white text-[12px]">امیرمسعود اسدی طلب</span>
+                            {activePanel && (
+                                <Profile/>
+                            )}
                         </div>
                     </div>
+
+
                 </div>
 
                 <div className="relative z-[10] w-full h-[76vw] text-black top-[50px]">
@@ -475,6 +602,7 @@ function AdminLayout({children}) {
 
             </div>
         </div>
+        </AdminGuard>
     );
 }
 

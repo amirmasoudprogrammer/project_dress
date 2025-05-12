@@ -1,5 +1,5 @@
 import React from 'react';
-import {FaCheckCircle} from "react-icons/fa";
+
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 import Image from "next/image";
@@ -31,7 +31,7 @@ function CanceledPage(props) {
                     <div>
                         <Image
                             className="rounded-xl"
-                            src="/images1235.png"
+                            src="/image/images1235.png"
                             alt="image"
                             width={50}
                             height={50}
@@ -79,7 +79,7 @@ function CanceledPage(props) {
                         <div>
                             <Image
                                 className="rounded-xl"
-                                src="/images1235.png"
+                                src="/image/images1235.png"
                                 alt="image"
                                 width={50}
                                 height={50}
@@ -111,7 +111,7 @@ function CanceledPage(props) {
                         <div>
                             <Image
                                 className="rounded-xl"
-                                src="/images1235.png"
+                                src="/image/images1235.png"
                                 alt="image"
                                 width={50}
                                 height={50}

@@ -1,54 +1,126 @@
 "use client";
-import React, {useRef, useState} from 'react';
-import {BiImageAdd} from "react-icons/bi";
+import React, {useEffect, useState} from 'react';
+import axios from "axios";
+import {toast, Toaster} from "sonner";
+import {useRouter} from "next/navigation";
+import AddColors from "@/components/admin/modules/AddColors";
+
 
 function AddProduct(props) {
-    const fileInputRef = useRef(null);
-    const [fileName, setFileName] = useState("");
+    const router = useRouter();
+    const [data, setData] = useState([]);
     const [formData, setFormData] = useState({
         name: "",
         price: "",
+        sku: "",
         category: "",
-        discountPrice: "",
         description: "",
-        isActive: false
+        isActive: false,
+        image: null,
     });
+    const [galleryImages, setGalleryImages] = useState([]);
+    const [colors, setColors] = useState([
+        {
+            name: "",
+            hex_code: "",
+            stock: "",
+            combinations: [{name: "", hex_code: "", description: ""}],
+        },
+    ]);
+
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const token = Cookies.get("tokenAdmin")
+                const res = await axios.get("https://joppin.ir/api/v1/admin/categories",{
+                    headers: token ? { Authorization: `Bearer ${token}` } : {}
+                });
+                const activeItems = res.data?.data?.filter((item) => item.is_active);
+                setData(activeItems);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
 
     const handleInputChange = (e) => {
         const {name, value, type, checked} = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value
+            [name]: type === "checkbox" ? checked : value,
         }));
     };
 
-    const handleDivClick = () => {
-        fileInputRef.current.click();
+    const handleMainImageChange = (e) => {
+        const file = e.target.files[0];
+        setFormData((prev) => ({
+            ...prev,
+            image: file,
+        }));
     };
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
+    const handleGalleryImagesChange = (e) => {
+        const files = Array.from(e.target.files);
+        setGalleryImages(files);
+    };
 
-        if (file) {
-            const validTypes = ["image/jpeg", "image/png", "image/gif"];
-            const maxSize = 10 * 1024 * 1024; // 10MB
+    const startAdd = async (e) => {
+        e.preventDefault();
 
-            if (!validTypes.includes(file.type)) {
-                alert("فرمت فایل مجاز نیست. فقط gif, jpg, png مجازند.");
-                return;
+        const form = new FormData();
+        form.append("name", formData.name);
+        form.append("price", formData.price);
+        form.append("sku", formData.sku);
+        form.append("category_id", formData.category);
+        form.append("description", formData.description);
+        form.append("isActive", formData.isActive ? 1 : 0);
+
+        if (formData.image) {
+            form.append("featured_image", formData.image);
+        }
+
+        galleryImages.forEach((img) => {
+            form.append("gallery[]", img);
+        });
+
+        colors.forEach((color, index) => {
+            form.append(`colors[${index}][name]`, color.name);
+            form.append(`colors[${index}][hex_code]`, color.hex_code);
+            form.append(`colors[${index}][stock]`, color.stock);
+            color.combinations.forEach((comb, combIndex) => {
+                form.append(`colors[${index}][combinations][${combIndex}][name]`, comb.name);
+                form.append(`colors[${index}][combinations][${combIndex}][hex_code]`, comb.hex_code);
+                form.append(`colors[${index}][combinations][${combIndex}][description]`, comb.description);
+            });
+        });
+
+        try {
+            const res = await axios.post("https://joppin.ir/api/v1/admin/products", form, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            if (res.status === 201) {
+                toast.success(res.data.message);
+                setTimeout(() => {
+                    router.push("/Admin_Dashboard/Product");
+                }, 2000);
             }
-
-            if (file.size > maxSize) {
-                alert("حجم فایل بیش از ۱۰ مگابایت است.");
-                return;
-            }
-
-            setFileName(file.name);
+        } catch (error) {
+            console.error(error);
+            const serverMessage = error.response?.data?.message || "خطایی رخ داده است.";
+            toast.error(serverMessage);
         }
     };
 
+
     return (
         <div className="mt-32 mr-8">
+            <Toaster expand={true} position="bottom-center" richColors/>
             <div>
                 <span className="text-[25px] font-bold">افزودن محصول جدید</span>
                 <div>
@@ -58,7 +130,7 @@ function AddProduct(props) {
                 </div>
             </div>
 
-            <form action="" className="mt-20 flex flex-col items-start">
+            <form action="" onSubmit={startAdd} className="mt-20 flex flex-col items-start">
                 <div className="flex items-center">
                     <div>
                         <div className="flex flex-col">
@@ -76,10 +148,11 @@ function AddProduct(props) {
                         <div className="flex flex-col mt-9">
                             <label htmlFor="price">قیمت (تومان)</label>
                             <input
+
                                 id="price"
                                 name="price"
                                 className="w-[500px] h-[35px] rounded mt-1 outline-0 border border-slate-300"
-                                type="text"
+                                type="number"
                                 placeholder="قیمت محصول را وارد کنید"
                                 value={formData.price}
                                 onChange={handleInputChange}
@@ -97,20 +170,24 @@ function AddProduct(props) {
                                 onChange={handleInputChange}
                             >
                                 <option value="">انتخاب دسته‌بندی</option>
-                                <option value="پوشاک">پوشاک</option>
-                                <option value="کفش">کفش</option>
-                                <option value="اکسسوری">اکسسوری</option>
+                                {data?.map((category) => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.name}
+                                    </option>
+                                ))}
                             </select>
+
+
                         </div>
                         <div className="flex flex-col mt-9">
-                            <label htmlFor="discountPrice">موجودی</label>
+                            <label htmlFor="sku">کد محصول</label>
                             <input
-                                id="discountPrice"
-                                name="discountPrice"
+                                id="sku"
+                                name="sku"
                                 className="w-[500px] h-[35px] rounded mt-1 outline-0 border border-slate-300"
-                                type="text"
+                                type="number"
                                 placeholder="قیمت تخفیف‌خورده را وارد کنید"
-                                value={formData.discountPrice}
+                                value={formData.sku}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -129,54 +206,51 @@ function AddProduct(props) {
                     />
                 </div>
 
-                <div className="flex flex-col items-start justify-start mt-10">
-                    <label className="text-end text-lg font-normal mb-4">تصویر محصول</label>
+                <div className="flex item-center  ">
+                    <div className="flex flex-col mt-10">
+                        <label htmlFor="image">تصویر اصلی محصول</label>
+                        <input
+                            name="image"
+                            type="file"
+                            className="border border-gray-300 p-2 rounded mt-5"
+                            onChange={handleMainImageChange}
+                        />
 
-                    <div
-                        onClick={handleDivClick}
-                        className="w-[1050px] h-[150px] border-dashed border-2 border-slate-400 rounded flex flex-col items-center justify-center cursor-pointer hover:border-slate-400 transition"
-                    >
-                        {fileName ? (
-                            <p className="text-green-600 font-medium">فایل انتخاب شده: {fileName}</p>
-                        ) : (
-                            <>
-                                <div className="text-[30px] text-gray-600">
-                                    <BiImageAdd />
-                                </div>
-                                <p className="text-gray-600 text-base">آپلود فایل با کشیدن و رها کردن</p>
-                                <p className="text-sm text-gray-400 mt-2">
-                                    فرمت‌های مجاز: gif, jpg, png - حداکثر 10 مگابایت
-                                </p>
-                            </>
-                        )}
+                    </div>
+                    <div className="flex flex-col mt-10 mr-10">
+                        <label htmlFor="image">تصویر های فرعی</label>
+                        <input
+                            name="image"
+                            type="file"
+                            multiple
+                            className="border border-gray-300 p-2 rounded mt-5"
+                            onChange={handleGalleryImagesChange}
+                        />
+
                     </div>
 
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={handleFileChange}
-                        className="hidden"
-                        accept=".jpg,.jpeg,.png,.gif"
-                    />
                 </div>
 
                 <div className="mt-5">
-                    <div className="flex items-center">
-                        <input
-                            type="checkbox"
+                    <div className="flex items-start flex-col mb-2">
+                        <label className="mb-2">وضعیت</label>
+                        <select
                             name="isActive"
-                            checked={formData.isActive}
+                            className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
+                            value={formData.isActive ? "1" : "0"}
                             onChange={handleInputChange}
-                        />
-                        <label className="text-[12px] mr-3">محصول فعال باشد</label>
+                        >
+                            <option value="1">ON</option>
+                            <option value="0">OFF</option>
+                        </select>
                     </div>
-                    <span className="text-slate-500 text-[11px] mr-5">
-                        اگر این گزینه را انتخاب کنید محصول در سایت نمایش داده می‌شود
+                    <span className="text-slate-500 text-[11px] ">
+                        اگر این گزینه را انتخاب کنید محصول در سایت موجود هست اگر انتخاب نکنید موجود نیست
                     </span>
                 </div>
-
                 <div className="flex items-center mr-auto ml-28 mt-6">
-                    <button type="button" className="text-[11px] ml-5 border-2 rounded border border-slate-400 border-dashed p-3">
+                    <button type="button"
+                            className="text-[11px] ml-5 border-2 rounded border border-slate-400 border-dashed p-3">
                         انصراف
                     </button>
                     <button type="submit" className="text-[12px] p-3 bg-indigo-700 text-white rounded">
@@ -184,6 +258,10 @@ function AddProduct(props) {
                     </button>
                 </div>
             </form>
+            <div>
+                <AddColors colors={colors} setColors={setColors}/>
+            </div>
+
         </div>
     );
 }

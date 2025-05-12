@@ -25,17 +25,17 @@ function Banner() {
             >
                 <SwiperSlide>
                     <Link href="/Products">
-                    <Image className="w-full h-auto object-cover" src="/Rectangle 4.svg" alt="Slide 1" width={1920} height={1080} />
+                    <Image className="w-full h-auto object-cover" src="/image/Rectangle 4.svg" alt="Slide 1" width={1920} height={1080} />
                    </Link>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href="/Products">
-                    <Image className="w-full h-auto object-cover" src="/Rectangle 4.svg" alt="Slide 2" width={1920} height={1080} />
+                    <Image className="w-full h-auto object-cover" src="/image/Rectangle 4.svg" alt="Slide 2" width={1920} height={1080} />
                     </Link>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href="/Products">
-                    <Image className="w-full h-auto object-cover" src="/Rectangle 4.svg" alt="Slide 3" width={1920} height={1080} />
+                    <Image className="w-full h-auto object-cover" src="/image/Rectangle 4.svg" alt="Slide 3" width={1920} height={1080} />
                     </Link>
                 </SwiperSlide>
             </Swiper>

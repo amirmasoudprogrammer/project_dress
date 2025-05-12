@@ -10,7 +10,7 @@ function Footer(props) {
     return (
         <>
             <footer style={{
-                backgroundImage: "url('/Rectangle 160.png')",
+                backgroundImage: "url('image/Rectangle 160.png')",
                 backgroundSize: "cover",
                 width: "100%",
                 height: "80vh"
@@ -43,21 +43,11 @@ function Footer(props) {
                                 <span className="absolute right-0 -bottom-0 w-1/5 h-[3px] bg-white"></span>
                             </h2>
                             <ul className="text-sm text-white space-y-3">
-                                <li className=""><Link href="/Contact"
-                                                       className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center ">تماس
-                                    با ما</Link></li>
-                                <li className=""><Link href="@/components/client/layout/Footer"
-                                                       className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">محصولات
-                                    ما</Link></li>
-                                <li className=""><Link href="/Login&Registration"
-                                                       className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">ورود
-                                    و ثبت نام</Link></li>
-                                <li className=""><Link href="@/components/client/layout/Footer"
-                                                       className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-centere">درباره
-                                    ما</Link></li>
-                                <li className=""><Link href="@/components/client/layout/Footer"
-                                                       className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">وبلاگ</Link>
-                                </li>
+                                <li className=""><Link href="/Contact" className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center ">تماس با ما</Link></li>
+                                <li className=""><Link href="/Products" className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">محصولات ما</Link></li>
+                                <li className=""><Link href="/Login_Registration" className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">ورود و ثبت نام</Link></li>
+                                <li className=""><Link href="/About" className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-centere">درباره ما</Link></li>
+                                <li className=""><Link href="/Blog" className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">وبلاگ</Link></li>
                             </ul>
                         </div>
 
@@ -68,18 +58,10 @@ function Footer(props) {
                                 <span className="absolute right-0 -bottom-0 w-1/5 h-[3px] bg-white"></span>
                             </h2>
                             <ul className="text-sm text-white space-y-4">
-                                <li><Link href="@/components/client/layout/Footer"
-                                          className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center ">تیم
-                                    کارکنان</Link></li>
-                                <li><Link href="@/components/client/layout/Footer"
-                                          className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">درخواست
-                                    همکاری</Link></li>
-                                <li><Link href="@/components/client/layout/Footer"
-                                          className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">فروشگاه
-                                    ما</Link></li>
-                                <li><Link href="@/components/client/layout/Footer"
-                                          className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-centere">محصولات
-                                    ما</Link></li>
+                                <li><Link href="/About" className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center ">تیم کارکنان</Link></li>
+                                <li><Link href="/Contact" className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">درخواست همکاری</Link></li>
+                                <li><Link href="/Products" className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">فروشگاه ما</Link></li>
+                                <li><Link href="/Products" className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-centere">محصولات ما</Link></li>
                             </ul>
                         </div>
 
@@ -106,7 +88,7 @@ function Footer(props) {
 
 
             <footer style={{
-                backgroundImage: "url('/Rectangle 160.png')",
+                backgroundImage: "url('image/Rectangle 160.png')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 width: "100%",
@@ -146,24 +128,24 @@ function Footer(props) {
                                 </h2>
                                 <ul className="text-sm text-white space-y-3">
                                     <li><Link href="/Contact">تماس با ما</Link></li>
-                                    <li><Link href="@/components/client/layout/Footer">محصولات ما</Link></li>
-                                    <li><Link href="/Login&Registration">ورود و ثبت نام</Link></li>
-                                    <li><Link href="@/components/client/layout/Footer">درباره ما</Link></li>
-                                    <li><Link href="@/components/client/layout/Footer">وبلاگ</Link></li>
+                                    <li><Link href="/Products">محصولات ما</Link></li>
+                                    <li><Link href="/Login_Registration">ورود و ثبت نام</Link></li>
+                                    <li><Link href="/About">درباره ما</Link></li>
+                                    <li><Link href="/Blog">وبلاگ</Link></li>
                                 </ul>
                             </div>
 
                             {/* آخرین مطالب وبلاگ */}
                             <div>
-                                <h2 className="relative   md:w-[200px] text-[12px] mb-2 pb-3 border-b border-gray-400 inline-block">
+                                <h2 className="relative md:w-[200px] text-[12px] mb-2 pb-3 border-b border-gray-400 inline-block">
                                     آخرین مطالب وبلاگ
                                     <span className="absolute right-0 -bottom-0 w-1/5 h-[3px] bg-white"></span>
                                 </h2>
                                 <ul className="text-sm text-white space-y-4">
-                                    <li><Link href="@/components/client/layout/Footer">تیم کارکنان</Link></li>
-                                    <li><Link href="@/components/client/layout/Footer">درخواست همکاری</Link></li>
-                                    <li><Link href="@/components/client/layout/Footer">فروشگاه ما</Link></li>
-                                    <li><Link href="@/components/client/layout/Footer">محصولات ما</Link></li>
+                                    <li><Link href="/About">تیم کارکنان</Link></li>
+                                    <li><Link href="/Contact">درخواست همکاری</Link></li>
+                                    <li><Link href="/Products">فروشگاه ما</Link></li>
+                                    <li><Link href="/Products">محصولات ما</Link></li>
                                 </ul>
                             </div>
                         </div>

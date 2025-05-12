@@ -3,7 +3,7 @@ import Image from "next/image";
 
 function LoadingOrError({ message }) {
     return (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center ">
             <div className="relative flex flex-col justify-center items-center">
                 <div className="absolute animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-purple-500"></div>
                 <Image src="https://www.svgrepo.com/show/509001/avatar-thinking-9.svg"

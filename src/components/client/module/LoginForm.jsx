@@ -8,7 +8,7 @@ function LoginForm({handleCheckboxChange ,handleChange,handleSubmit}) {
 
                 <div className="flex flex-col items-center justify-center w-[800px] mb-28">
                     <div className="flex items-center justify-center ">
-                        <Image src="/Group 946.png" className="object-cover  " width={192} height={192}
+                        <Image src="/image/Group 946.png" className="object-cover  " width={192} height={192}
                                alt="image"/>
                     </div>
 
@@ -32,22 +32,22 @@ function LoginForm({handleCheckboxChange ,handleChange,handleSubmit}) {
                     </form>
                 </div>
                 <div className="">
-                    <Image src="/Group 21.png" className="object-cover w-full h-[100vh] -mt-16" width={500}
+                    <Image src="/image/Group 21.png" className="object-cover w-full h-[100vh] -mt-16" width={500}
                            height={500}
                            alt="image"/>
                 </div>
             </div>
 
             <div style={{
-                backgroundImage: "url('/Group 21.png')",
+                backgroundImage: "url('image/Group 21.png')",
                 backgroundSize: "cover",
                 width: "100%",
                 height: "100vh"
             }} className="flex items-center justify-between  md:hidden">
                 <div
-                    className="flex flex-col items-center justify-around bg-white w-[360px] m-auto  h-[499px] mb-28">
+                    className="flex flex-col items-center justify-around backdrop-blur-md bg-white/30 border border-white/20 rounded-xl shadow-md w-[360px] m-auto  h-[499px] mb-28">
                     <div className="flex items-center justify-center ">
-                        <Image src="/Group 946.png" className="object-cover  " width={80} height={80} alt="image"/>
+                        <Image src="/image/Group 946.png" className="object-cover  " width={80} height={80} alt="image"/>
                     </div>
 
                     <form className="flex flex-col items-start justify-center" onSubmit={handleSubmit}>

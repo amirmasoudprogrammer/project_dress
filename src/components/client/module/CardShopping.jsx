@@ -12,7 +12,7 @@ function CardShopping({item}) {
         <>
             <div className="hidden md:flex items-center rounded border border-slate-400 h-[132px] p-5 mt-5">
                 <div className="flex items-center justify-center ">
-                    <Image className="rounded" src="/1bac492818e7c2d5b8ac0ea324830989.jpg"
+                    <Image className="rounded" src="/image/1bac492818e7c2d5b8ac0ea324830989.jpg"
                            alt="Logo"
                            width={60}
                            height={60}/>
@@ -74,7 +74,7 @@ function CardShopping({item}) {
             <div className=" flex flex-col md:hidden rounded-lg border border-slate-200 mt-5 w-[312px] h-[225px] m-auto pt-5 pr-5 pl-5">
                 <div className="flex border-b border-slate-200 pb-5 ">
                     <div>
-                        <Image className="rounded" src="/1bac492818e7c2d5b8ac0ea324830989.jpg"
+                        <Image className="rounded" src="/image/1bac492818e7c2d5b8ac0ea324830989.jpg"
                                alt="Logo"
                                width={60}
                                height={60}/>

@@ -13,6 +13,11 @@ import LoadingOrError from "@/components/client/module/LoadingOrError";
 function OurProducts() {
     const [activeIndex, setActiveIndex] = useState(0);
     const { data, error, isLoading } = useGetProductsQuery();
+    const products = data?.data;
+
+    if (isLoading) {
+        return <LoadingOrError message="کمی صبر کنید.." />;
+    }
 
     if (error) {
         return <LoadingOrError message="خطا در سرور" />;
@@ -41,7 +46,9 @@ function OurProducts() {
                 className="relative w-full mt-10"
             >
                 <Swiper
-                    onSlideChange={(swiper) => setActiveIndex(swiper.realIndex % indicatorsCount)}
+                    onSlideChange={(swiper) =>
+                        setActiveIndex(swiper.realIndex % indicatorsCount)
+                    }
                     slidesPerView={2}
                     centeredSlides={true}
                     freeMode={true}
@@ -59,8 +66,8 @@ function OurProducts() {
                         1024: { slidesPerView: 5, spaceBetween: 20 },
                     }}
                 >
-                    {data && Array.isArray(data) && data.length > 0 ? (
-                        data.map((item, index) => (
+                    {products && Array.isArray(products) && products.length > 0 ? (
+                        products.map((item, index) => (
                             <SwiperSlide
                                 key={item.id || index}
                                 className="transition-all duration-500 mr-5 md:-mr-5 pt-16"
@@ -68,7 +75,11 @@ function OurProducts() {
                                 <motion.div
                                     initial={{ opacity: 0, y: 50 }}
                                     whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
+                                    transition={{
+                                        duration: 0.6,
+                                        ease: "easeOut",
+                                        delay: index * 0.1,
+                                    }}
                                     viewport={{ once: true, amount: 0.2 }}
                                 >
                                     <CardProduct data={item} />

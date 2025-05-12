@@ -1,9 +1,9 @@
 import React from 'react';
-import AddCategoriesPage from "@/components/admin/templates/AddCategoriesPage";
+import CreateCategoriesPage from "@/components/admin/templates/CreateCategoriesPage";
 
 function Page(props) {
     return (
-        <AddCategoriesPage/>
+        <CreateCategoriesPage/>
     );
 }
 

@@ -1,15 +1,27 @@
 "use client";
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
-
-function Page(props) {
+function Page() {
     const router = useRouter();
+    const [tokenChecked, setTokenChecked] = useState(false);
 
     useEffect(() => {
-        router.replace("/Admin_Dashboard/Dashboard/DashboardOne");
-    }, []);
-    return null
+        const storedToken = Cookies.get("tokenAdmin");
+
+        if (storedToken) {
+            router.replace("/Admin_Dashboard");
+        } else {
+            router.replace("/");
+        }
+
+        setTokenChecked(true);
+    }, [router]);
+
+    if (!tokenChecked) return null;
+
+    return null;
 }
 
 export default Page;

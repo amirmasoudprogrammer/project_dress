@@ -29,7 +29,7 @@ function DetailPage() {
                 >
                 <div>
                     <div className="flex items-center justify-center">
-                        <Image src="/Rectangle 240.png" width={1224} height={719} alt="image"/>
+                        <Image src="/image/Rectangle 240.png" width={1224} height={719} alt="image"/>
                     </div>
                     <div>
                         <div
@@ -85,7 +85,7 @@ function DetailPage() {
                 </div>
                 <div className="mt-16 flex flex-col md:flex-row justify-start items-start border-b border-[#626262] pb-5">
                     <div>
-                        <Image src="/Rectangle 241.png" width={660} height={728} alt="image"/>
+                        <Image src="/image/Rectangle 241.png" width={660} height={728} alt="image"/>
                     </div>
                     <div className="w-[360px] text-center m-auto md:text-start md:w-[509px] md:mr-10 text-[16px] mt-5">
                         <span className="text-black font-normal">اتو کشیدن لباس‌های شب نیاز به دقت بیشتری دارد چون معمولاً از پارچه‌های حساس و ظریف مانند ساتن، حریر، مخمل یا گیپور ساخته شده‌اند. این نکات را رعایت کن:</span>

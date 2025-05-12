@@ -8,7 +8,7 @@ function Banneritem3() {
         <>
             {/* نسخه دسکتاپ */}
             <div className="mt-24 relative hidden md:block overflow-hidden">
-                <Image className="w-screen" src="/Group 961.png" alt="img" layout="responsive" width={900} height={500} />
+                <Image className="w-screen" src="/image/Group 961.png" alt="img" layout="responsive" width={900} height={500} />
                 <div className="flex flex-col items-center justify-center">
                     {/* تصویر بالا */}
                     <motion.div
@@ -18,7 +18,7 @@ function Banneritem3() {
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
                     >
-                        <Image src="/Rectangle 262.png" alt="img" width={300} height={300} />
+                        <Image src="/image/Rectangle 262.png" alt="img" width={300} height={300} />
                     </motion.div>
 
                     {/* دو تصویر پایینی */}
@@ -31,10 +31,10 @@ function Banneritem3() {
                             viewport={{ once: true }}
                         >
                             <div className="flex flex-col items-center">
-                                <Image src="/Group 960.png" alt="img" width={300} height={300} />
+                                <Image src="/image/Group 960.png" alt="img" width={300} height={300} />
                             </div>
                             <div className="flex flex-col items-center">
-                                <Image src="/Group 969.png" alt="img" width={300} height={300} />
+                                <Image src="/image/Group 969.png" alt="img" width={300} height={300} />
                             </div>
                         </motion.div>
 
@@ -56,7 +56,7 @@ function Banneritem3() {
 
             {/* نسخه موبایل */}
             <div className="mt-24 relative block md:hidden overflow-hidden">
-                <Image className="w-screen" src="/Group 962.png" alt="img" layout="responsive" width={900} height={500} />
+                <Image className="w-screen" src="/image/Group 962.png" alt="img" layout="responsive" width={900} height={500} />
                 <div className="flex flex-col items-center justify-center">
                     {/* تصویر بالا */}
                     <motion.div
@@ -66,7 +66,7 @@ function Banneritem3() {
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
                     >
-                        <Image src="/Rectangle 262.png" alt="img" width={100} height={100} />
+                        <Image src="/image/Rectangle 262.png" alt="img" width={100} height={100} />
                     </motion.div>
 
                     {/* دو تصویر پایینی */}
@@ -78,8 +78,8 @@ function Banneritem3() {
                         viewport={{ once: true }}
                     >
                         <div className="flex justify-around items-center w-full px-5">
-                            <Image src="/Group 964.png" alt="img" width={110} height={100} />
-                            <Image src="/Group 965.png" alt="img" width={110} height={100} />
+                            <Image src="/image/Group 964.png" alt="img" width={110} height={100} />
+                            <Image src="/image/Group 965.png" alt="img" width={110} height={100} />
                         </div>
 
                         {/* متن */}

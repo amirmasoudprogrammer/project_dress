@@ -13,13 +13,17 @@ import CardProductImage from "@/components/client/module/CardProductImage";
 function NewProduct() {
     const { data, error, isLoading } = useGetProductsQuery();
 
-    const products = data || []; // جلوگیری از کرش شدن در صورت نبود داده
+    const products = data?.data || [];
+
     const rows = Array.from({ length: Math.ceil(products.length / 24) }, (_, i) =>
         products.slice(i * 24, i * 24 + 24)
     );
+
+
     const mobileRows = Array.from({ length: Math.ceil(products.length / 6) }, (_, i) =>
         products.slice(i * 6, i * 6 + 6)
     );
+
 
     return (
         <>
