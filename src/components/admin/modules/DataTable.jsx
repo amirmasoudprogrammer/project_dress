@@ -8,6 +8,7 @@ import {MdDelete} from "react-icons/md";
 import {IoClose} from "react-icons/io5";
 import axios from "axios";
 import {toast} from "sonner";
+import Cookies from "js-cookie";
 
 
 function DataTable({confirmDelete, data, loading, setLoading}) {
@@ -16,15 +17,19 @@ function DataTable({confirmDelete, data, loading, setLoading}) {
     const [position, setPosition] = useState("0");
     const [status, setStatus] = useState("1");
     const [image, setImage] = useState(null);
-    const [dataApi, setDataApi] = useState(data)
+    const [dataApi, setDataApi] = useState([])
 
 
 
     useEffect( () =>{
         const fetchData = async () => {
             try {
-                const res = await axios.get('https://joppin.ir/api/banners');
-              const result = res.data
+
+                const token = Cookies.get('tokenAdmin');
+                const res = await axios.get('https://joppin.ir/api/banners' ,{
+                    headers: token ? { Authorization: `Bearer ${token}` } : {}
+                });
+              const result = res.data.data
                 setDataApi(result);
             } catch (error) {
                 console.error(error);
@@ -107,7 +112,7 @@ function DataTable({confirmDelete, data, loading, setLoading}) {
                         </tr>
                         </thead>
                         <tbody className="text-center text-sm">
-                        {dataApi?.banner?.map((banner) => (
+                        {dataApi.map((banner) => (
                             <tr key={banner.id}>
                                 <td className="flex items-center justify-center">
                                     <Image

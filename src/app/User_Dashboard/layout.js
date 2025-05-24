@@ -1,5 +1,5 @@
 "use client";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {motion} from "framer-motion";
 import {
@@ -11,10 +11,35 @@ import {CiHeart, CiLogin} from "react-icons/ci";
 import {FaAngleDown} from "react-icons/fa6";
 import {RxHamburgerMenu} from "react-icons/rx";
 import UserGuard from "@/app/User_Dashboard/UserGuard";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 function Layout({children}) {
     const [isOpen, setIsOpen] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const [user , setUser] =useState([])
+    useEffect(() => {
+        const fetchBlog= async () => {
+            try {
+                const token = Cookies.get('token');
+                const res = await axios.get(`https://joppin.ir/api/v1/user/profile`, {
+                    headers: token ? { Authorization: `Bearer ${token}` } : {}
+                });
+                setUser(res.data.data)
+            } catch (error) {
+                console.error(`Error fetching banners for:`, error);
+            }
+        };
+
+        fetchBlog()
+        const interval = setInterval(() => {
+            fetchBlog()
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+    console.log(user)
 
     const menuItems = [
         {
@@ -112,10 +137,10 @@ function Layout({children}) {
                 {/* دسکتاپ: منو کناری */}
                 <div className="hidden md:flex flex-col w-[320px] h-[680px] bg-white  shadow-md rounded-2xl p-6">
                     <div className="border-b border-gray-200 pb-4 mb-4">
-                        <h2 className="text-lg font-semibold text-gray-900">امیرمسعود اسدی طلب</h2>
+                        <h2 className="text-lg font-semibold text-gray-900">{user.user_name}</h2>
                         <div className="flex justify-between items-center mt-1">
-                            <span className="text-sm text-gray-500">09302153874</span>
-                            <Link href="/">
+                            <span className="text-sm text-gray-500">{user.mobile}</span>
+                            <Link href={`/User_Dashboard/profile/${user.id}`}>
                                 <AiTwotoneEdit className="text-blue-500 text-lg"/>
                             </Link>
                         </div>

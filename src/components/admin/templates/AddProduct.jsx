@@ -4,7 +4,7 @@ import axios from "axios";
 import {toast, Toaster} from "sonner";
 import {useRouter} from "next/navigation";
 import AddColors from "@/components/admin/modules/AddColors";
-
+import Cookies from "js-cookie";
 
 function AddProduct(props) {
     const router = useRouter();
@@ -33,8 +33,8 @@ function AddProduct(props) {
         const fetchCategories = async () => {
             try {
                 const token = Cookies.get("tokenAdmin")
-                const res = await axios.get("https://joppin.ir/api/v1/admin/categories",{
-                    headers: token ? { Authorization: `Bearer ${token}` } : {}
+                const res = await axios.get("https://joppin.ir/api/v1/admin/categories", {
+                    headers: token ? {Authorization: `Bearer ${token}`} : {}
                 });
                 const activeItems = res.data?.data?.filter((item) => item.is_active);
                 setData(activeItems);
@@ -98,12 +98,11 @@ function AddProduct(props) {
         });
 
         try {
+            const token = Cookies.get("tokenAdmin")
             const res = await axios.post("https://joppin.ir/api/v1/admin/products", form, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+                headers: token ? {Authorization: `Bearer ${token}`} : {}
             });
-
+            console.log(res)
             if (res.status === 201) {
                 toast.success(res.data.message);
                 setTimeout(() => {

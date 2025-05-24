@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import {toast} from "sonner";
+import Cookies from "js-cookie";
 
 function IncreaseWarehouse({setShowIncrease, showincrease}) {
     const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ function IncreaseWarehouse({setShowIncrease, showincrease}) {
             });
         }
     }, [showincrease.item]);
-
+console.log(showincrease)
     const handleChange = (e) => {
         const {name, value} = e.target;
         setFormData((prev) => ({
@@ -36,11 +37,9 @@ function IncreaseWarehouse({setShowIncrease, showincrease}) {
             form.append("quantity", formData.quantity);
             form.append("reason", formData.reason);
             form.append("unit_cost", formData.unit_cost);
-
+            const token = Cookies.get('tokenAdmin');
             const res = await axios.post(`https://joppin.ir/api/inventory/${showincrease.item.id}/add-stock`, form, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
             });
             console.log(res)
             if (res.status === 200) {

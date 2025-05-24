@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { FiTrash2 } from "react-icons/fi";
+import Cookies from "js-cookie";
 
 function EditBlogs({ editBlogs, setEditeBlogs }) {
     const [title, setTitle] = useState(editBlogs.item.title ?? '');
@@ -50,8 +51,10 @@ function EditBlogs({ editBlogs, setEditeBlogs }) {
                 formData.append(`images[${index}][description]`, img.description);
                 formData.append(`images[${index}][sort_order]`, img.sort_order);
             });
-
-            await axios.post(`https://joppin.ir/api/v1/blog/${editBlogs.item.id}`, formData);
+            const token = Cookies.get('tokenAdmin');
+            await axios.post(`https://joppin.ir/api/v1/blog/${editBlogs.item.id}`, formData ,{
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
+            });
             toast.success("پست با موفقیت ویرایش شد");
             setEditeBlogs({ show: false, item: null });
         } catch (error) {

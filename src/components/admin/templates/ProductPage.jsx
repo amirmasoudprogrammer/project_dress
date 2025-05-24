@@ -3,17 +3,18 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import Link from "next/link";
-import NamePages from "@/components/admin/modules/NamePages";
+
 import {FaPlus} from "react-icons/fa6";
 import {IoIosSearch} from "react-icons/io";
 import {LiaEdit} from "react-icons/lia";
 import {MdDelete} from "react-icons/md";
-import {CiImageOn} from "react-icons/ci";
+
 
 import {motion} from "framer-motion";
 import DeleteProducts from "@/components/admin/modules/DeleteProducts";
 import EditProducts from "@/components/admin/modules/EditProducts";
 import Cookies from "js-cookie";
+import Image from "next/image";
 
 function ProductPage({data}) {
     const [products, setProducts] = useState(data);
@@ -69,6 +70,7 @@ function ProductPage({data}) {
 
         return matchesCategory && matchesSearch;
     });
+    console.log(filteredProducts)
 
 
 
@@ -134,6 +136,7 @@ function ProductPage({data}) {
                 >
                     <thead className="bg-gray-100 text-gray-700">
                     <tr>
+                        <th className="px-4 py-2">تصویر</th>
                         <th className="px-4 py-2">نام محصول</th>
                         <th className="px-4 py-2">دسته‌بندی</th>
                         <th className="px-4 py-2">قیمت (تومان)</th>
@@ -146,11 +149,13 @@ function ProductPage({data}) {
                     <tbody>
                     {filteredProducts.map((item) => (
                         <tr key={item.id} className="text-center">
-                            {console.log(item)}
+                             <td>
+                                 <div className=" flex items-center justify-center text-[18px]  rounded">
+                                     <Image src={item.featured_image} alt="Slide 1" width={20} height={20}/>
+                                 </div>
+                             </td>
+
                             <td className="flex items-center justify-center gap-2">
-                                <div className="bg-slate-300 text-[18px] p-1 rounded">
-                                    <CiImageOn/>
-                                </div>
                                 <div className="text-[11px] flex flex-col items-start">
                                     <span>{item.name}</span>
                                     <p className="text-slate-400 mt-0.5">کد #{item.sku}</p>

@@ -1,13 +1,17 @@
 "use client"
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {HiOutlineArrowLongLeft} from "react-icons/hi2";
 import {motion, AnimatePresence} from 'framer-motion';
+import Cookies from "js-cookie";
+import axios from "axios";
+import {toast, Toaster} from "sonner";
 
 
 function TicketPageNew(props) {
     const [isVisible, setIsVisible] = useState(true);
     const [showPopup, setShowPopup] = useState(false);
-    const [form, setFormData] = useState({
+    const [category, setCategory] = useState([])
+    const [formData, setFormData] = useState({
         category_id: '',
         title: '',
         message: '',
@@ -43,6 +47,29 @@ function TicketPageNew(props) {
     ]);
     const [selectedFaq, setSelectedFaq] = useState(null);
 
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = Cookies.get("token");
+                const res = await axios.get('https://joppin.ir/api/ticket/ticket-categories/all', {
+                    headers: {
+                        Authorization: token ? `Bearer ${token}` : "",
+                    }
+                });
+                setCategory(res.data.data)
+
+            } catch (error) {
+                console.error('خطا در گرفتن داده‌ها:', error);
+            }
+        };
+
+        fetchData();
+        const interval = setInterval(fetchData, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+
     const handleInputChange = (e) => {
         const {name, value} = e.target;
         setFormData((prevForm) => ({
@@ -51,9 +78,44 @@ function TicketPageNew(props) {
         }));
     };
 
+    const startTicket = async (e) => {
+        e.preventDefault()
+        const form = new FormData()
+        form.append("category_id", formData.category_id);
+        form.append("title", formData.title);
+        form.append("message", formData.message);
+        form.append("priority", formData.priority);
+        if (formData.attachments && formData.attachments.length > 0) {
+            formData.attachments.forEach((file) => {
+                form.append("attachments[]", file);
+            });
+        }
+        const token = Cookies.get("token");
+        const res = await axios.post(`https://joppin.ir/api/v1/user/tickets`, form, {
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+                'Content-Type': 'application/json'
+            }
+        })
+        if (res.status === 201){
+            toast.success(res.data.message)
+            setFormData({
+                category_id: '',
+                title: '',
+                message: '',
+                priority: 'low',
+                attachments: [],
+            })
+        }
+
+
+    }
+
 
     return (
         <>
+
+            <Toaster expand={true} position="top-center" richColors/>
             <div className="mt-10 hidden md:flex flex-col  w-[831px] ">
                 <div className="border h-[650px] border border-slate-300 rounded-xl mr-2">
                     <div className="flex flex-col items-start justify-between mt-5 mr-5">
@@ -115,41 +177,63 @@ function TicketPageNew(props) {
                     <div>
                         <span className="text-black">پیام پشتیبانی جدید</span>
                         <div className="flex items-start justify-start mt-8 mb-10">
-                            <form>
+                            <form onSubmit={startTicket}>
                                 <div className="text-black flex flex-col items-start justify-start">
                                     <label className="text-black" htmlFor="title">عنوان تیکت</label>
                                     <input name="title"
                                            className="w-[800px] mt-2 h-[35px] outline-0 border border-slate-400 rounded"
-                                           value={form.title} type="text" onChange={handleInputChange}/>
+                                           value={formData.title} type="text" onChange={handleInputChange}/>
                                 </div>
                                 <div className="text-black flex flex-col items-start justify-start">
                                     <label className="text-black" htmlFor="department">دپارتمان</label>
-                                    <select value={form.category_id}
-                                            onChange={handleInputChange}
-                                            id="department"
-                                            name="category_id"
-                                            className="w-[800px] mt-2 h-[35px] outline-0 border border-slate-400 rounded">
+                                    <select
+                                        name="category_id"
+                                        id="category_id"
+                                        value={formData.category_id}
+                                        onChange={handleInputChange}
+                                        className="w-[800px] mt-2 h-[35px] border border-slate-400 rounded"
+                                    >
                                         <option value="">لطفاً یک دپارتمان را انتخاب کنید</option>
-                                        <option value="support">پشتیبانی</option>
-                                        <option value="sales">فروش</option>
-                                        <option value="technical">فنی</option>
+                                        {category.map((item) => (
+                                            <option key={item.id} value={item.id}>{item.name}</option>
+                                        ))}
                                     </select>
                                 </div>
-                                <div className="text-black flex flex-col items-start justify-start ">
-                                    <label className="text-black" htmlFor="section">بخش</label>
-                                    <select id="section" name="section"
-                                            className="w-[800px] mt-2 h-[35px] outline-0 border border-slate-400 rounded">
-                                        <option value="">لطفاً یک بخش را انتخاب کنید</option>
-                                        <option value="website">وب‌سایت</option>
-                                        <option value="app">اپلیکیشن</option>
-                                        <option value="payment">پرداخت</option>
-                                        <option value="other">سایر</option>
+                                <div className="text-black flex flex-col items-start justify-start mt-4">
+                                    <label className="text-black" htmlFor="priority">اولویت</label>
+                                    <select
+                                        id="priority"
+                                        name="priority"
+                                        value={formData.priority}
+                                        onChange={handleInputChange}
+                                        className="w-[800px] mt-2 h-[35px] outline-0 border border-slate-400 rounded"
+                                    >
+                                        <option value="low">کم (Low)</option>
+                                        <option value="medium">متوسط (Medium)</option>
+                                        <option value="high">زیاد (High)</option>
+                                        <option value="urgent">فوری (Urgent)</option>
                                     </select>
+                                </div>
+
+                                <div className="text-black flex flex-col items-start justify-start">
+                                    <label className="text-black" htmlFor="title">عنوان تیکت</label>
+                                    <input
+                                        type="file"
+                                        name="attachments"
+                                        multiple
+                                        onChange={(e) => {
+                                            setFormData((prevForm) => ({
+                                                ...prevForm,
+                                                attachments: Array.from(e.target.files),
+                                            }));
+                                        }}
+                                        className="w-[800px] mt-2 h-[35px] outline-0 border border-slate-400 rounded"
+                                    />
                                 </div>
                                 <div className="text-black flex flex-col items-start justify-start">
                                     <label className="text-black" htmlFor="title">پیام</label>
                                     <textarea name="message"
-                                              value={form.message}
+                                              value={formData.message}
                                               onChange={handleInputChange}
                                               className="w-[800px] mt-2 h-[279px] outline-0 border border-slate-400 rounded resize-none"
                                     ></textarea>
@@ -193,7 +277,7 @@ function TicketPageNew(props) {
                                     <label className="text-black text-[12px] " htmlFor="title">عنوان تیکت</label>
                                     <input
                                         name="title"
-                                        value={form.title}
+                                        value={formData.title}
                                         onChange={handleInputChange}
                                         className=" mt-2 w-[240px] outline-0 border border-slate-400 rounded "
                                         type="text"/>
@@ -202,7 +286,7 @@ function TicketPageNew(props) {
                                     <label className="text-black text-[12px]" htmlFor="department">دپارتمان</label>
                                     <select
                                         name="category_id"
-                                        value={form.category_id}
+                                        value={formData.category_id}
                                         onChange={handleInputChange}
                                         id="department"
                                         className=" mt-2 w-[240px] text-[12px] outline-0 border border-slate-400 rounded">
@@ -227,11 +311,12 @@ function TicketPageNew(props) {
                                     <label className="text-black text-[12px]" htmlFor="title">پیام</label>
                                     <textarea
                                         name="message"
-                                        value={form.message}
+                                        value={formData.message}
                                         onChange={handleInputChange}
                                         className=" mt-2 w-[240px] h-[125px] outline-0 border border-slate-400 rounded resize-none"></textarea>
                                 </div>
-                                <div className="w-[166px] h-[36px] bg-[#007AFF] mt-5 flex items-center justify-center rounded mr-auto">
+                                <div
+                                    className="w-[166px] h-[36px] bg-[#007AFF] mt-5 flex items-center justify-center rounded mr-auto">
                                     <button>ارسال پیام</button>
                                 </div>
                             </form>

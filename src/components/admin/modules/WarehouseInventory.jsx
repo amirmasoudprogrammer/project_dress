@@ -25,7 +25,7 @@ function WarehouseInventory({chartInventory, setChartInventory}) {
         name: item.name,
         turnover: item.turnover_rate,
     }));
-
+    console.log("📦 داده‌های نمودار گردش موجودی:", chartData);
     // رنگ‌های مختلف برای بخش‌های چارت
     const COLORS = ['#6366f1', '#34d399', '#fbbf24', '#ef4444', '#60a5fa'];
 

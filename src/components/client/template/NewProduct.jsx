@@ -72,7 +72,7 @@ function NewProduct() {
                                                     viewport={{ once: true, amount: 0.2 }}
                                                     className="flex justify-center"
                                                 >
-                                                 <CardProductImage product={product} id={colIndex}/>
+                                                 <CardProductImage product={product} id={product.id}/>
                                                 </motion.div>
                                             ))}
                                         </div>
@@ -122,7 +122,7 @@ function NewProduct() {
                                                     viewport={{ once: true, amount: 0.2 }}
                                                     className="flex justify-center"
                                                 >
-                                                    <CardProductImage product={product} id={rowIdx}/>
+                                                    <CardProductImage product={product} id={product.id}/>
                                                 </motion.div>
                                             ))}
                                         </div>

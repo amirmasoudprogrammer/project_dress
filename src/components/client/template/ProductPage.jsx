@@ -14,7 +14,7 @@ import { IoMdClose } from "react-icons/io";
 function ProductPage() {
     const [showFilters, setShowFilters] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
-    const [showCategoryItems, setShowCategoryItems] = useState(false); // استیت برای نمایش آیتم‌های دسته‌بندی در موبایل
+    const [showCategoryItems, setShowCategoryItems] = useState(false);
 
     const toggleFilters = () => setShowFilters(!showFilters);
     const togglePopup = () => setShowPopup(!showPopup);
@@ -29,6 +29,7 @@ function ProductPage() {
     ];
 
     const { data, error, isLoading } = useGetProductsQuery();
+    console.log(data)
 
     return (
         <>
@@ -96,7 +97,7 @@ function ProductPage() {
 
                 {/* Animated Products */}
                 <div className="flex items-center justify-center md:justify-start flex-wrap mt-10">
-                    {(data || []).map((item, index) => (
+                    {data?.data?.map((item, index) => (
                         <motion.div
                             key={item.id}
                             className="flex flex-col w-[279px] mr-1 mt-3"

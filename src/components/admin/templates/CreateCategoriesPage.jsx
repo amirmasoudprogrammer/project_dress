@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import {useRouter} from "next/navigation";
 import {Toaster, toast} from 'sonner'
+import Cookies from "js-cookie";
 
 function CreateCategoriesPage() {
     const router = useRouter();
@@ -20,11 +21,9 @@ function CreateCategoriesPage() {
         postdata.append("is_active", isActive);
 
         try {
+            const token = Cookies.get("tokenAdmin")
             const res = await axios.post("https://joppin.ir/api/v1/admin/categories", postdata, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')?.getAttribute("content"),
-                },
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
             });
 
             if (res.status === 201) {

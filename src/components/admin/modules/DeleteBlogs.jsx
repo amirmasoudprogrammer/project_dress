@@ -1,14 +1,17 @@
 import React from 'react';
 import axios from "axios";
 import {toast} from "sonner";
+import Cookies from "js-cookie";
 
 function DeleteBlogs({deleteBlogs, setDeleteBlogs}) {
 
 
     const performDelete = async () => {
         try {
-
-            const res = await axios.delete(`https://joppin.ir/api/v1/blog/${deleteBlogs.id}`)
+            const token = Cookies.get('tokenAdmin');
+            const res = await axios.delete(`https://joppin.ir/api/v1/blog/${deleteBlogs.id}`,{
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
+            })
             if (res.status === 200){
                toast.success(res.data.message)
                 setDeleteBlogs({show:false ,id:null})

@@ -1,8 +1,31 @@
+import {useState} from "react";
+import {motion} from "framer-motion";
+import {availableColors} from "@/utils/Users";
 
-import { useState } from "react";
-
-function AddColors({ colors, setColors }) {
+function AddColors({colors, setColors}) {
+    console.log(colors)
     const [isOpen, setIsOpen] = useState(false);
+    const [colorPickerTarget, setColorPickerTarget] = useState(null);
+
+
+    const handleColorSelect = (selectedColor) => {
+        if (colorPickerTarget) {
+            const {type, colorIdx, combIdx} = colorPickerTarget;
+            const newColors = [...colors];
+            console.log(selectedColor)
+
+            if (type === "main") {
+                newColors[colorIdx].name = selectedColor.name;
+                newColors[colorIdx].hex_code = selectedColor.hex_code;
+            } else if (type === "combination") {
+                newColors[colorIdx].combinations[combIdx].name = selectedColor.name;
+                newColors[colorIdx].combinations[combIdx].hex_code = selectedColor.hex_code;
+            }
+
+            setColors(newColors);
+            setColorPickerTarget(null);
+        }
+    };
 
     const handleColorChange = (idx, field, value) => {
         const newColors = [...colors];
@@ -19,13 +42,13 @@ function AddColors({ colors, setColors }) {
     const addColor = () => {
         setColors([
             ...colors,
-            { name: "", hex_code: "", stock: "", combinations: [{ name: "", hex_code: "", description: "" }] }
+            {name: "", hex_code: "", stock: "", combinations: [{name: "", hex_code: "", description: ""}]}
         ]);
     };
 
     const addCombination = (colorIdx) => {
         const newColors = [...colors];
-        newColors[colorIdx].combinations.push({ name: "", hex_code: "", description: "" });
+        newColors[colorIdx].combinations.push({name: "", hex_code: "", description: ""});
         setColors(newColors);
     };
 
@@ -42,7 +65,8 @@ function AddColors({ colors, setColors }) {
 
             {isOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-xl shadow-lg p-6 w-[90%] max-w-2xl relative space-y-6 overflow-y-auto max-h-[90vh]">
+                    <div
+                        className="bg-white rounded-xl shadow-lg p-6 w-[90%] max-w-2xl relative space-y-6 overflow-y-auto max-h-[90vh]">
                         <button
                             onClick={() => setIsOpen(false)}
                             className="absolute top-3 left-3 text-gray-500 hover:text-gray-700 text-2xl"
@@ -53,22 +77,33 @@ function AddColors({ colors, setColors }) {
                         <h2 className="text-2xl font-bold text-center mb-4">افزودن رنگ‌ها</h2>
 
                         {colors.map((color, i) => (
-                            <div key={i} className="border rounded-lg p-4 bg-gray-50 space-y-4">
+                            <motion.div
+                                key={i}
+                                initial={{opacity: 0, y: 10}}
+                                animate={{opacity: 1, y: 0}}
+                                transition={{duration: 0.4, delay: i * 0.1}}
+                                className="border rounded-lg p-4 bg-gray-50 space-y-4"
+                            >
                                 <h3 className="text-xl font-semibold mb-2">رنگ {i + 1}</h3>
-                                <input
-                                    type="text"
-                                    placeholder="نام رنگ"
-                                    value={color.name}
-                                    onChange={(e) => handleColorChange(i, "name", e.target.value)}
-                                    className="border p-2 rounded-md w-full"
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="کد رنگ"
-                                    value={color.hex_code}
-                                    onChange={(e) => handleColorChange(i, "hex_code", e.target.value)}
-                                    className="border p-2 rounded-md w-full"
-                                />
+
+                                <div onClick={() => setColorPickerTarget({type: "main", colorIdx: i})}
+                                     className="cursor-pointer">
+                                    <input
+                                        type="text"
+                                        placeholder="نام رنگ"
+                                        value={color.name}
+                                        readOnly
+                                        className="border p-2 rounded-md w-full cursor-pointer bg-gray-100"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="کد رنگ"
+                                        value={color.hex_code}
+                                        readOnly
+                                        className="border p-2 rounded-md w-full bg-gray-100 mt-2"
+                                    />
+                                </div>
+
                                 <input
                                     type="number"
                                     placeholder="موجودی"
@@ -76,7 +111,6 @@ function AddColors({ colors, setColors }) {
                                     onChange={(e) => handleColorChange(i, "stock", e.target.value)}
                                     className="border p-2 rounded-md w-full"
                                 />
-
 
                                 <button
                                     type="button"
@@ -87,34 +121,46 @@ function AddColors({ colors, setColors }) {
                                 </button>
 
                                 {color.combinations.map((comb, j) => (
-                                    <div key={j} className="border rounded-md p-3 bg-white shadow-sm mt-4">
-                                        <input
-                                            type="text"
-                                            placeholder="نام رنگ پیشنهادی"
-                                            value={comb.name}
-                                            onChange={(e) => handleCombinationChange(i, j, "name", e.target.value)}
-                                            className="border p-2 rounded-md w-full"
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder="کد رنگ پیشنهادی"
-                                            value={comb.hex_code}
-                                            onChange={(e) => handleCombinationChange(i, j, "hex_code", e.target.value)}
-                                            className="border p-2 rounded-md w-full"
-                                        />
+                                    <motion.div
+                                        key={j}
+                                        initial={{opacity: 0, y: 10}}
+                                        animate={{opacity: 1, y: 0}}
+                                        transition={{duration: 0.4, delay: j * 0.05}}
+                                        className="border rounded-md p-3 bg-white shadow-sm mt-4"
+                                    >
+                                        <div onClick={() => setColorPickerTarget({
+                                            type: "combination",
+                                            colorIdx: i,
+                                            combIdx: j
+                                        })} className="cursor-pointer">
+                                            <input
+                                                type="text"
+                                                placeholder="نام رنگ پیشنهادی"
+                                                value={comb.name}
+                                                readOnly
+                                                className="border p-2 rounded-md w-full cursor-pointer bg-gray-100"
+                                            />
+                                            <input
+                                                type="text"
+                                                placeholder="کد رنگ پیشنهادی"
+                                                value={comb.hex_code}
+                                                readOnly
+                                                className="border p-2 rounded-md w-full bg-gray-100 mt-2"
+                                            />
+                                        </div>
                                         <input
                                             type="text"
                                             placeholder="توضیح"
                                             value={comb.description}
                                             onChange={(e) => handleCombinationChange(i, j, "description", e.target.value)}
-                                            className="border p-2 rounded-md w-full"
+                                            className="border p-2 rounded-md w-full mt-2"
                                         />
-                                    </div>
+                                    </motion.div>
                                 ))}
-                            </div>
+                            </motion.div>
                         ))}
 
-                        <div className="flex justify-between gap-4">
+                        <div className="flex justify-between gap-4 mt-4">
                             <button
                                 type="button"
                                 onClick={addColor}
@@ -129,6 +175,39 @@ function AddColors({ colors, setColors }) {
                             >
                                 ثبت رنگ‌ها
                             </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {colorPickerTarget && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-xl shadow-lg p-6 w-[90%] max-w-md space-y-4 relative">
+                        <button
+                            onClick={() => setColorPickerTarget(null)}
+                            className="absolute top-3 left-3 text-gray-500 hover:text-gray-700 text-2xl"
+                        >
+                            &times;
+                        </button>
+                        <h3 className="text-xl font-bold text-center">انتخاب رنگ</h3>
+
+                        <div className="grid grid-cols-2 gap-4 max-h-80 overflow-y-auto pr-2">
+                            {availableColors.map((color, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{opacity: 0, y: 10}}
+                                    animate={{opacity: 1, y: 0}}
+                                    transition={{duration: 0.3, delay: index * 0.03}}
+                                    className="flex items-center gap-2 p-2 border hover:bg-gray-100 rounded cursor-pointer"
+                                    onClick={() => handleColorSelect(color)}
+                                >
+                                    <div
+                                        className="w-6 h-6 rounded-full"
+                                        style={{backgroundColor: color.hex_code}}
+                                    ></div>
+                                    <span>{color.name}</span>
+                                </motion.div>
+                            ))}
                         </div>
                     </div>
                 </div>

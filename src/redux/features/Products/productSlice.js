@@ -1,9 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 // دریافت محصولات از API
 export const fetchProducts = createAsyncThunk("products/fetchProducts", async (_, thunkAPI) => {
     try {
-        const response = await fetch("https://joppin.ir/api/v1/products");
+        const token = Cookies.get("token");
+        const response = await fetch("https://joppin.ir/api/v1/products" ,{
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+            }
+        });
         if (!response.ok) throw new Error("خطا در دریافت محصولات");
         const data = await response.json();
         return data;

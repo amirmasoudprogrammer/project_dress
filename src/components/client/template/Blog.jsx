@@ -1,5 +1,5 @@
 "use client";
-import React, {useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Title from "@/components/client/template/Title";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,29 +8,44 @@ import "swiper/css";
 import "swiper/css/navigation";
 import {Navigation} from "swiper/modules";
 import {FaAngleLeft, FaAngleRight} from "react-icons/fa6";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 function Blog() {
+    const [blog , setBlog] =useState([])
+    useEffect(() => {
+        const fetchBlog= async () => {
+            try {
+                const token = Cookies.get('token');
+                const res = await axios.get(`https://joppin.ir/api/v1/blog`, {
+                    headers: token ? { Authorization: `Bearer ${token}` } : {}
+                });
+                setBlog(res.data.data)
+            } catch (error) {
+                console.error(`Error fetching banners for:`, error);
+            }
+        };
+
+        fetchBlog()
+        const interval = setInterval(() => {
+            fetchBlog()
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+
+    console.log(blog)
+
     const swiperRef = useRef(null);
 
-    const slides = [
-        { id: 1, src: "/image/Group 858.svg", alt: "Slide 1" },
-        { id: 2, src: "/image/Group 858.svg", alt: "Slide 2" },
-        { id: 3, src: "/image/Group 858.svg", alt: "Slide 3" },
-    ];
 
-    const articles = [
-        { id: 1, src: "/image/Rectangle 28.png", title: "روش شستشو و نگهداری لباس شب", desc: "مادر رابطه با اتو کشی لباس‌ها و روش نگهداری..." },
-        { id: 2, src: "/image/Rectangle 28 (1).png", title: "روش شستشو و نگهداری لباس شب", desc: "مادر رابطه با اتو کشی لباس‌ها و روش نگهداری..." },
-        { id: 3, src: "/image/Rectangle 28 (2).png", title: "روش شستشو و نگهداری لباس شب", desc: "مادر رابطه با اتو کشی لباس‌ها و روش نگهداری..." },
-        { id: 4, src: "/image/Rectangle 28 (3).png", title: "روش شستشو و نگهداری لباس شب", desc: "مادر رابطه با اتو کشی لباس‌ها و روش نگهداری..." },
-    ];
 
     return (
         <div>
             <Title name="وبلاگ ما"/>
             <div className="flex  container  justify-between mt-5  m-auto flex-col-reverse md:flex-row ">
                 {/* اسلایدر */}
-                <div className="flex-1 flex justify-center  md:mr-0 items-center m-auto max-w-full overflow-hidden relative">
+                <div className="flex-1 flex justify-center mb-5  md:mr-0 items-center m-auto max-w-full overflow-hidden relative">
                     <Swiper
                         onSwiper={(swiper) => (swiperRef.current = swiper)}
                         loop={true}
@@ -38,13 +53,13 @@ function Blog() {
                         modules={[Navigation]}
                         className="mySwiper "
                     >
-                        {slides.map((slide) => (
+                        {blog.map((slide) => (
                             <SwiperSlide key={slide.id} className="mr-1 mt-10 md:mt-0 md:mr-0">
-                                <Link href="/Blog">
+                                <Link href={`/Blog/${slide.id}`}>
                                     <Image
-                                        className="w-[312px] md:w-[879px] h-auto object-cover"
-                                        src={slide.src}
-                                        alt={slide.alt}
+                                        className="w-[320px] md:w-[879px] md:h-[500px] object-cover"
+                                        src={slide.images[0]?.image_path}
+                                        alt="تصویر"
                                         width={200}
                                         height={200}
                                     />
@@ -64,18 +79,18 @@ function Blog() {
                         مطالب اخیر الیزا
                     </span>
 
-                    <div className="flex flex-col mt-5 mr-5 md:mr-0">
-                        {articles.map((article) => (
+                    <div className="flex flex-col mt-5 mr-5 md:mr-0 md:w-[600px]">
+                        {blog.map((article) => (
                             <div key={article.id} className="flex items-center border-b-2 border-b-neutral-300 mt-3 pb-5">
-                                <Image src={article.src} alt="img" width={104} height={88} />
+                                <Image src={article.images[0]?.image_path} alt={article.images[0]?.description || 'img'} width={104} height={88} />
                                 <div className="ml-3 md:mr-5">
                 <span className="text-black dark:text-white text-[10px] mr-5 md:mr-0 font-bold md:text-sm">
                   {article.title}
                 </span>
                                     <p className="text-[#626262] dark:text-white mr-5 md:mr-0 text-[10px] md:text-sm mt-2 mb-3">
-                                        {article.desc}
+                                        {article.content}
                                     </p>
-                                    <Link className="text-[#6E8E59] dark:text-green-700 mr-5 md:mr-0 text-[10px] md:text-sm" href="/Blog">
+                                    <Link className="text-[#6E8E59] dark:text-green-700 mr-5 md:mr-0 text-[10px] md:text-sm" href={`/Blog/${article.id}`}>
                                         مشاهده مطلب
                                     </Link>
                                 </div>

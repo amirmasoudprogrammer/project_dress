@@ -1,17 +1,16 @@
 import React from 'react';
 import axios from "axios";
 import {toast} from "sonner";
+import Cookies from "js-cookie";
 
 function DeleteCategories({deletePopup, setDeletePopup}) {
 
 
     const performDelete = async () => {
         try {
+            const token = Cookies.get("tokenAdmin")
             const res = await axios.delete(`https://joppin.ir/api/v1/admin/categories/${deletePopup.id}`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: 'application/json'
-                }
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
             });
 
             if (res.status === 200) {

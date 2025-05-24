@@ -3,6 +3,7 @@ import {AnimatePresence, motion} from "framer-motion";
 import {IoClose} from "react-icons/io5";
 import axios from "axios";
 import {toast} from "sonner";
+import Cookies from "js-cookie";
 
 function CreateBanner({showModal, setLoading, setShowModal, loading}) {
     const [name, setName] = useState("");
@@ -21,11 +22,9 @@ function CreateBanner({showModal, setLoading, setShowModal, loading}) {
             formDataToSend.append("position", position);
             formDataToSend.append("status", status);
             formDataToSend.append("image", image);
-
+            const token = Cookies.get('tokenAdmin');
             const res = await axios.post(`https://joppin.ir/api/banners`, formDataToSend, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
             });
 
             console.log(res)
@@ -33,7 +32,10 @@ function CreateBanner({showModal, setLoading, setShowModal, loading}) {
             if (res.data.status === "success") {
                 toast.success("بنر اضافه شد ");
                 setShowModal(false);
-
+                setPosition("")
+                setStatus("")
+                setImage("")
+                setName("")
             }
 
         } catch (error) {

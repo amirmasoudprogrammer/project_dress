@@ -9,28 +9,22 @@ import {toast, Toaster} from "sonner";
 
 function ShoppingCard() {
     const state = useSelector((state) => state.cart);
-    const [isClient, setIsClient] = useState(false); // برای اطمینان از اجرای کد در کلاینت
-    console.log(state)
     const dispatch = useDispatch();
+console.log(state)
 
 
-    useEffect(() => {
-        setIsClient(true); // فقط در کلاینت این مقدار تغییر می‌کند
-    }, []);
 
-    if (!isClient) {
-        return null; // زمانی که صفحه هنوز در حال رندر در سرور است، چیزی نمایش داده نمی‌شود
-    }
+
 
     const handleOrder = () => {
-        if (state.selectedItems?.length === 0) {
-            toast.warning("لطفاً ابتدا خرید کنید! 🛒", {
-                position: "top-center",
-                duration: 3000
-            });
-            return;
-        }
-        dispatch(setStep(2))
+        // if (state.selectedItems?.length === 0) {
+        //     toast.warning("لطفاً ابتدا خرید کنید! 🛒", {
+        //         position: "top-center",
+        //         duration: 3000
+        //     });
+        //     return;
+        // }
+        // dispatch(setStep(2))
     };
 
     return (
@@ -49,7 +43,7 @@ function ShoppingCard() {
                             </div>
                         </div>
                         <div className="flex flex-col">
-                            {state.selectedItems?.map((item) => <CardShopping key={item.id} item={item}/>)}
+                            {state.map((item ,index) => <CardShopping key={index} item={item}/>)}
                         </div>
                     </div>
                 </div>
@@ -57,12 +51,12 @@ function ShoppingCard() {
                     <div className="border-b border-slate-400 flex flex-col items-center justify-center ">
                         <span
                             className="text-black m-auto text-center flex items-center justify-center mt-3 mb-5 font-bold">تعداد</span>
-                        {state.selectedItems?.map((item) => <CardPriceShopping key={item.id} item={item}/>)}
+                        {state.map((item,index) => <CardPriceShopping key={index} item={item}/>)}
                     </div>
                     <div className="mt-5 flex justify-around items-center">
                         <span className="text-[#626262] ml-16">جمع سبد خرید:</span>
                         <div className="flex justify-between items-center">
-                            <p className="text-red-600 font-bold">{ConvertCurrency(state.total)}</p>
+                            <p className="text-red-600 font-bold">{}</p>
                             <span className="text-black mr-2">تومان</span>
                         </div>
                     </div>
@@ -77,7 +71,7 @@ function ShoppingCard() {
             {/*mobile*/}
             <div className="flex md:hidden flex-col">
                 <div>
-                    {state.selectedItems?.map((item) => <CardShopping key={item.id} item={item}/>)}
+                    {state.map((item,index) => <CardShopping key={index} item={item}/>)}
                 </div>
 
             </div>
@@ -92,7 +86,7 @@ function ShoppingCard() {
                         className="w-[312px] mt-5 flex justify-between items-center m-auto border-t border-gray-400 pt-5">
                         <span className="text-[#626262] ml-16 text-[14px]">جمع سبد خرید:</span>
                         <div className="flex justify-between items-center">
-                            <p className="text-red-600 font-bold text-[14px]">{ConvertCurrency(state.total)}</p>
+                            <p className="text-red-600 font-bold text-[14px]"></p>
                             <span className="text-black mr-2">تومان</span>
                         </div>
                     </div>
@@ -104,7 +98,7 @@ function ShoppingCard() {
                         <div>
                             <span className="text-[12px] text-[#626262]">جمع سبد خرید</span>
                             <div className="flex justify-start items-start">
-                                <p className="text-red-600 font-bold text-[14px]">{ConvertCurrency(state.total)}</p>
+                                <p className="text-red-600 font-bold text-[14px]"></p>
                                 <span className="text-black mr-2 text-[14px]">تومان</span>
                             </div>
 

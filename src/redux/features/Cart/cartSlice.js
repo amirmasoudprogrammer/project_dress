@@ -32,6 +32,7 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         AddITEM: (state, action) => {
+            console.log({state,action})
             if (!state.selectedItems.find(item => item.id === action.payload.id && item.color === action.payload.color && item.size === action.payload.size)) {
                 state.selectedItems.push({
                     ...action.payload,
@@ -58,7 +59,9 @@ const cartSlice = createSlice({
             saveCartToLocalStorage(state.selectedItems);
         },
         increase: (state, action) => {
+            console.log({state,action})
             const increaseindex =state.selectedItems.findIndex(item => item.id === action.payload.id  && item.colors === action.payload.color && item.size === action.payload.size)
+
             if (increaseindex >= 0) {
                 state.selectedItems[increaseindex].quantity++;
                 state.total = calculateTotal(state.selectedItems);

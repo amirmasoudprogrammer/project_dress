@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
+import Cookies from "js-cookie";
 
 function DecreaseWarehouse({showDecrease,setShowDecrease}) {
     const [formData, setFormData] = useState({
@@ -26,11 +27,9 @@ function DecreaseWarehouse({showDecrease,setShowDecrease}) {
             form.append("quantity", formData.quantity);
             form.append("reason", formData.reason);
             form.append("unit_cost", formData.unit_cost);
-
+            const token = Cookies.get('tokenAdmin');
             const res = await axios.post(`https://joppin.ir/api/inventory/${showDecrease.item.id}/remove-stock`, form, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
             });
 
             console.log('ثبت موفق:', res.data);

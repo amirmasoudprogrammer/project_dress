@@ -4,6 +4,7 @@ import {FiTrash2} from "react-icons/fi";
 import axios from "axios";
 import {toast, Toaster} from "sonner";
 import {useRouter} from "next/navigation";
+import Cookies from "js-cookie";
 
 function AddBlogs() {
     const router = useRouter();
@@ -45,10 +46,9 @@ function AddBlogs() {
         });
 
         try {
+            const token = Cookies.get('tokenAdmin');
             const res = await axios.post(`https://joppin.ir/api/v1/blog`, form, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
             });
 
             if (res.status === 200) {

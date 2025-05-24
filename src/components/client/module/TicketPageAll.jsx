@@ -12,6 +12,7 @@ import persian_fa from "react-date-object/locales/persian_fa"
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 
 function TicketPageAll({data}) {
@@ -21,7 +22,12 @@ function TicketPageAll({data}) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get('https://joppin.ir/api/v1/user/tickets');
+                const token = Cookies.get("token");
+                const res = await axios.get('https://joppin.ir/api/v1/user/tickets' ,{
+                    headers: {
+                        Authorization: token ? `Bearer ${token}` : "",
+                    }
+                });
                 const tickets = res.data?.data?.data || [];
                 setTicketAll(tickets)
 
