@@ -1,0 +1,46 @@
+import React from 'react';
+import axios from "axios";
+import {toast} from "sonner";
+import Cookies from "js-cookie";
+
+function DeleteAbout({deletePopups,setDeletePopups}) {
+
+    const performDelete = async () => {
+        try {
+            const token = Cookies.get('tokenAdmin');
+            const res = await axios.delete(`https://joppin.ir/api/v1/abouts/${deletePopups.id}`, {
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
+            })
+            console.log(res)
+            if (res.status === 200) {
+                toast.success(res.data.message);
+                setDeletePopups({show:false , id:null})
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-30">
+            <div className="bg-white p-6 rounded-lg shadow-md w-[300px] text-center">
+                <h2 className="text-lg font-bold mb-4">آیا از حذف مطمئن هستید؟</h2>
+                <div className="flex justify-around mt-6">
+                    <button
+                        onClick={() => setDeletePopups({show: false, id: null})}
+                        className="px-4 py-2 bg-gray-300 rounded text-sm"
+                    >
+                        انصراف
+                    </button>
+                    <button
+                        onClick={performDelete}
+                        className="px-4 py-2 bg-red-600 text-white rounded text-sm"
+                    >
+                        حذف شود
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default DeleteAbout;

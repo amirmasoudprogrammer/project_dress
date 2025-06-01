@@ -43,10 +43,10 @@ function AdminLayout({children}) {
                 {/* یوزر */}
                 <div className="flex items-center justify-center mt-3">
                     {isCollapsed ? (
-                        <Image className="rounded-full" src="/image/photo_۲۰۲۵-۰۴-۲۵_۱۸-۴۹-۲۰.jpg" width={40} height={40} alt="icon"/>
+                        <Image className="rounded-full" src="/image/photo_admin.jpg" width={40} height={40} alt="icon"/>
                     ) : (
                         <>
-                            <Image className="rounded-full h-[55px]" src="/image/photo_۲۰۲۵-۰۴-۲۵_۱۸-۴۹-۲۰.jpg" width={50} height={50} alt="icon"/>
+                            <Image className="rounded-full h-[55px]" src="/image/photo_admin.jpg" width={50} height={50} alt="icon"/>
                             <div className="-mt-1">
                                 <span className="text-[14px] font-bold mr-3">امیر مسعود اسدی طلب</span>
                                 <div className="flex items-center justify-start mr-2 mt-1">
@@ -503,24 +503,24 @@ function AdminLayout({children}) {
                 {/*مدیریت منو ها*/}
                 {isCollapsed ? (
                     <>
-                        <Link onClick={() => setActiveItem("Menus")} href="/Admin_Dashboard/Menus"
+                        <Link onClick={() => setActiveItem("About")} href="/Admin_Dashboard/About"
                               className="relative group flex items-center mt-2  p-3">
                             <IoIosMenu/>
                             <div
                                 className="hidden group-hover:flex absolute bg-[#1e282c] w-[150px] h-[40px] z-[90] right-[50px] flex items-center pr-2 rounded">
-                                مدیریت منو ها
+                                مدیریت درباره ما
                             </div>
-                            {activeItem === "Menus" && (
+                            {activeItem === "About" && (
                                 <div className="absolute right-[47px] bg-[#00c0ef] w-[3px] h-[40px]"></div>
                             )}
                         </Link>
                     </>
                 ) : (
-                    <Link onClick={() => setActiveItem("Menus")} href="/Admin_Dashboard/Menus"
-                          className={`relative flex ${activeItem === "Menus" ? "bg-[#1e282c]" : ""} items-center mt-2  p-3`}>
+                    <Link onClick={() => setActiveItem("About")} href="/Admin_Dashboard/About"
+                          className={`relative flex ${activeItem === "About" ? "bg-[#1e282c]" : ""} items-center mt-2  p-3`}>
                         <IoIosMenu/>
-                        <span className="text-[12px] mr-2">مدیریت منو ها</span>
-                        {activeItem === "Menus" && (
+                        <span className="text-[12px] mr-2">مدیریت درباره ما</span>
+                        {activeItem === "About" && (
                             <div className=" absolute left-0 bg-[#00c0ef] w-[4px] h-[40px]"></div>
                         )}
                     </Link>
@@ -584,7 +584,7 @@ function AdminLayout({children}) {
                         <div
                             className="ml-10 hover:bg-[rgba(0,0,0,0.1)] flex items-center justify-center cursor-pointer p-2 focus:outline-none"
                             onClick={startClick}>
-                            <Image className="rounded-full ml-2 h-[35px]" src="/image/photo_۲۰۲۵-۰۴-۲۵_۱۸-۴۹-۲۰.jpg"
+                            <Image className="rounded-full ml-2 h-[35px]" src="/image/photo_admin.jpg"
                                    width={30} height={30} alt="icon"/>
                             <span className="text-white text-[12px]">امیرمسعود اسدی طلب</span>
                             {activePanel && (

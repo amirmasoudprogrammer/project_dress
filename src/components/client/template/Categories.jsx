@@ -29,9 +29,9 @@ function CategoriesPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const token = Cookies.get('token');
-                const res = await axios.get('https://joppin.ir/api/v1/admin/categories', {
-                    headers: token ? { Authorization: `Bearer ${token}` } : {}
+
+                const res = await axios.get('https://joppin.ir/api/v1/admin/categories',{
+                    headers: {'Content-Type': 'application/json', Accept: 'application/json'}
                 });
 
                 const categoriesWithColor = res.data.data.map((item, index) => ({

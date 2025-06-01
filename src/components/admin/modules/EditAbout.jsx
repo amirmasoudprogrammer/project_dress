@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Page(props) {
+function EditAbout(props) {
     return (
         <div></div>
     );
 }
 
-export default Page;
+export default EditAbout;

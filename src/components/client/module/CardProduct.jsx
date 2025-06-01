@@ -10,7 +10,7 @@ import {addToFavorites, addToSavedItems} from "@/redux/features/Cart/cartSlice";
 
 
 function CardProduct({data, off}) {
-    const {id, name, price} = data;
+    const {id, name, price ,slug} = data;
     const dispatch = useDispatch();
     const state = useSelector((store) => store.cart);
 
@@ -59,7 +59,7 @@ function CardProduct({data, off}) {
 
                     {/* دکمه + وسط عکس */}
                     <div className="absolute left-0 right-0 mb-3 bottom-0 flex items-center justify-center z-10">
-                        <Link href={`/Products/${id}`}>
+                        <Link href={`/Products/${id}/${slug}`}>
                             <div className="bg-white text-black text-xl w-10 h-10 flex items-center justify-center rounded-full shadow hover:scale-105 transition-all">
                                 +
                             </div>

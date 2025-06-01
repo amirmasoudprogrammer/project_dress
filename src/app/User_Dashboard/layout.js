@@ -39,7 +39,7 @@ function Layout({children}) {
         return () => clearInterval(interval);
     }, []);
 
-    console.log(user)
+
 
     const menuItems = [
         {
@@ -61,6 +61,14 @@ function Layout({children}) {
             color: "text-red-600",
         },
     ];
+
+    const startDelete = ({href ,label}) =>{
+        if (label === "خروج") {
+            Cookies.remove('token'); // ✅ حذف توکن
+            // در صورت نیاز: ریدایرکت به صفحه ورود
+            window.location.href = href || "/Login_Registration";
+        }
+    }
 
     return (
         <UserGuard>
@@ -85,6 +93,7 @@ function Layout({children}) {
                     <div className="mt-16 space-y-6">
                         {menuItems.slice(0, 2).map(({href, icon, label, color}) => (
                             <Link
+                                onClick={() =>startDelete({href,label})}
                                 key={label}
                                 href={href}
                                 className={`flex items-center gap-3 text-[15px] border-b border-gray-200 pb-2 text-gray-800 hover:text-black transition`}
@@ -123,6 +132,7 @@ function Layout({children}) {
 
                         {menuItems.slice(-1).map(({href, icon, label, color}) => (
                             <Link
+                                onClick={() =>startDelete({href,label})}
                                 key={label}
                                 href={href}
                                 className={`flex items-center gap-3 text-[15px] text-gray-800 hover:text-black transition`}
@@ -148,6 +158,7 @@ function Layout({children}) {
 
                     {menuItems.slice(0, 2).map(({href, icon, label, color}) => (
                         <Link
+
                             key={label}
                             href={href}
                             className={`flex items-center gap-3 mb-5 text-gray-800 hover:text-black transition`}
@@ -186,6 +197,7 @@ function Layout({children}) {
 
                     {menuItems.slice(-1).map(({href, icon, label, color}) => (
                         <Link
+                            onClick={() =>startDelete({href,label})}
                             key={label}
                             href={href}
                             className={`flex items-center gap-3 text-gray-800 hover:text-black transition`}

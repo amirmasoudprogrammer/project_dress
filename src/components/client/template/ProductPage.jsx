@@ -15,6 +15,7 @@ function ProductPage() {
     const [showFilters, setShowFilters] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [showCategoryItems, setShowCategoryItems] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1); // ✅ صفحه فعلی
 
     const toggleFilters = () => setShowFilters(!showFilters);
     const togglePopup = () => setShowPopup(!showPopup);
@@ -28,7 +29,8 @@ function ProductPage() {
         { id: 5, name: "گران ترین" },
     ];
 
-    const { data, error, isLoading } = useGetProductsQuery();
+    const { data, error, isLoading } = useGetProductsQuery(currentPage);
+    console.log(data)
     console.log(data)
 
     return (
@@ -110,7 +112,10 @@ function ProductPage() {
                     ))}
                 </div>
 
-                <Pagination />
+                {/* Pagination */}
+                {data?.meta && (
+                    <Pagination meta={data.meta} onPageChange={(page) => setCurrentPage(page)} />
+                )}
             </div>
 
             <div className="items-center flex justify-center">

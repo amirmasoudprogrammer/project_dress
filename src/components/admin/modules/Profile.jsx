@@ -17,7 +17,7 @@ function Profile() {
         <div className="absolute top-14 left-10 w-72 rounded-2xl shadow-xl bg-white p-4 z-50">
             <div className="flex items-center gap-3 border-b pb-4">
                 <img
-                    src="/image/photo_۲۰۲۵-۰۴-۲۵_۱۸-۴۹-۲۰.jpg"
+                    src="/image/photo_admin.jpg"
                     alt="profile"
                     className="w-14 h-14 rounded-full object-cover"
                 />

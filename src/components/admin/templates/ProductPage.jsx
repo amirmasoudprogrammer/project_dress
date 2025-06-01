@@ -15,29 +15,37 @@ import DeleteProducts from "@/components/admin/modules/DeleteProducts";
 import EditProducts from "@/components/admin/modules/EditProducts";
 import Cookies from "js-cookie";
 import Image from "next/image";
+import Pagination from "@/components/admin/modules/Pagination";
+
 
 function ProductPage({data}) {
-    const [products, setProducts] = useState(data);
+    const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState(null)
     const [deletePopup, setDeletePopup] = useState({show: false, id: null});
     const [popupEdit, setPopupEdit] = useState({show: false, item: null})
     const [searchValue, setSearchValue] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
+    const [currentPage, setCurrentPage] = useState(1);
 
     const Categories = async () => {
         const token = Cookies.get('tokenAdmin');
-        const res = await axios.get('https://joppin.ir/api/v1/admin/categories',{
-            headers: token ? { Authorization: `Bearer ${token}` } : {}
+        const res = await axios.get('https://joppin.ir/api/v1/admin/categories', {
+            headers: token ? {Authorization: `Bearer ${token}`} : {}
         });
         const result = res.data?.data
         const activeItems = result?.filter((item) => item.is_active);
         setCategories(activeItems)
     }
 
-    const fetchData = async () => {
+    const fetchData = async (page = 1, search = '', category = 'all') => {
         try {
             const token = Cookies.get('tokenAdmin');
-            const res = await axios.get('https://joppin.ir/api/v1/products', {
+            const res = await axios.get(`https://joppin.ir/api/v1/products`, {
+                params: {
+                    page,
+                    search: search || undefined,
+                    category: category !== 'all' ? category : undefined
+                },
                 headers: token ? { Authorization: `Bearer ${token}` } : {}
             });
             setProducts(res.data);
@@ -46,12 +54,25 @@ function ProductPage({data}) {
         }
     };
 
+
+    console.log(products)
+
     useEffect(() => {
-        fetchData();
+        fetchData(currentPage, searchValue, selectedCategory);
+    }, [currentPage, searchValue, selectedCategory]);
+
+
+    useEffect(() => {
         Categories();
         const interval = setInterval(fetchData, 5000);
         return () => clearInterval(interval);
     }, []);
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+        fetchData(newPage, searchValue, selectedCategory);
+    };
+
 
 
     const confirmDelete = (id) => {
@@ -73,9 +94,6 @@ function ProductPage({data}) {
     console.log(filteredProducts)
 
 
-
-
-
     return (
         <div className="mt-28">
             <h1 className="text-3xl font-extrabold text-gray-800 text-center mb-10">
@@ -83,15 +101,20 @@ function ProductPage({data}) {
             </h1>
 
 
-
             <div className="flex items-center justify-start mr-8 mt-3">
-                <Link
-                    href="/Admin_Dashboard/Product/add"
-                    className="flex items-center justify-center bg-indigo-700 p-2 text-[12px] text-white rounded"
-                >
+
+                <Link href="/Admin_Dashboard/Product/add"
+                      className="flex items-center justify-center bg-indigo-700 p-2 text-[12px] text-white rounded">
                     <FaPlus/>
                     <span className="mr-2">افزودن محصول جدید</span>
                 </Link>
+
+                <Link href="/Admin_Dashboard/Product/Colors"
+                      className="flex cursor-pointer mr-2 items-center justify-center bg-blue-600 hover:bg-blue-700 p-2 text-[12px] text-white rounded">
+                    <FaPlus/>
+                    <span className="mr-2">مدیریت رنگ‌ها</span>
+                </Link>
+
 
                 <form className="mr-3 flex">
                     <div className="mt-2 flex items-center h-[30px] border border-slate-300 rounded px-2">
@@ -147,13 +170,13 @@ function ProductPage({data}) {
                     </thead>
 
                     <tbody>
-                    {filteredProducts.map((item) => (
+                    {Array.isArray(filteredProducts) && filteredProducts.map((item) => (
                         <tr key={item.id} className="text-center">
-                             <td>
-                                 <div className=" flex items-center justify-center text-[18px]  rounded">
-                                     <Image src={item.featured_image} alt="Slide 1" width={20} height={20}/>
-                                 </div>
-                             </td>
+                            <td>
+                                <div className=" flex items-center justify-center text-[18px]  rounded">
+                                    <Image src={item.featured_image} alt="Slide 1" width={20} height={20}/>
+                                </div>
+                            </td>
 
                             <td className="flex items-center justify-center gap-2">
                                 <div className="text-[11px] flex flex-col items-start">
@@ -173,7 +196,8 @@ function ProductPage({data}) {
                             </td>
                             <td className="flex items-center justify-center gap-3 text-[20px]">
 
-                                <div onClick={() => confirmEdit(item)} className="text-blue-500 cursor-pointer hover:underline">
+                                <div onClick={() => confirmEdit(item)}
+                                     className="text-blue-500 cursor-pointer hover:underline">
                                     <LiaEdit/>
                                 </div>
                                 <div onClick={() => confirmDelete(item.id)}
@@ -186,11 +210,14 @@ function ProductPage({data}) {
                 </motion.table>
             </div>
 
-
+            {console.log(products)}
             <div className="mt-5">
         <span className="mr-8 text-[14px] font-normal">
-          نمایش 1 تا 5 از 12 نتیجه
+             نمایش {products?.meta?.from} تا {products?.meta?.to} از {products?.meta?.count} نتیجه
         </span>
+                {products?.meta && (
+                    <Pagination meta={products.meta} onPageChange={handlePageChange} />
+                )}
             </div>
 
 

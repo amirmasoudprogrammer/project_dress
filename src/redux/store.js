@@ -10,6 +10,7 @@ const store = configureStore({
         cart: cartReducer,
         products: productReducer,
         step: stepReducer,
+
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(productApi.middleware),

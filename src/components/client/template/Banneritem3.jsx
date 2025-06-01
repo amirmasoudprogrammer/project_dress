@@ -26,7 +26,7 @@ function Banneritem3() {
         return () => clearInterval(interval);
     }, []);
     if (!banners) return null;
-    console.log(banners)
+
 
     return (
         <>

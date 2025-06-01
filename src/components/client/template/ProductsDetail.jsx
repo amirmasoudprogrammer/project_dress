@@ -27,6 +27,7 @@ function ProductsDetail({data}) {
     const [selectedColor, setSelectedColor] = useState(null);
     const [suggestedColor, setSuggestedColor] = useState(null);
     const scrollContainerRef = useRef(null);
+    const [query, setQuery] = useState({})
     const quantity = quantityitms(state, id)
 
 
@@ -55,12 +56,12 @@ function ProductsDetail({data}) {
             chestNum >= 55 && chestNum <= 98 &&
             hipsNum >= 0 && hipsNum <= 100
         ) {
-            setFinalSize("سایز شما: ۱");
+            setFinalSize(1);
         } else if (
             chestNum > 98 && chestNum <= 112 &&
             hipsNum > 100 && hipsNum <= 118
         ) {
-            setFinalSize("سایز شما: ۲");
+            setFinalSize(2);
         } else {
             setFinalSize("سایز شما در دسته‌بندی موجود نیست.");
         }
@@ -79,15 +80,31 @@ function ProductsDetail({data}) {
 
 
     const handleAddToCart = () => {
-        const finalColor = selectedColor || suggestedColor || 'رنگ پیش‌فرض'; // مقدار پیش‌فرض برای رنگ
+        const finalColor = selectedColor ;
+        console.log(finalColor)
         const chestValue = Number(chest);
         const hipsValue = Number(hips);
+        console.log(selectedColor)
+
+        if (
+            chestValue >= 55 && chestValue <= 98 &&
+            hipsValue >= 0 && hipsValue <= 100
+        ) {
+            setFinalSize(1);
+        } else if (
+            chestValue > 98 && chestValue <= 112 &&
+            hipsValue > 100 && hipsValue <= 118
+        ) {
+            setFinalSize(2);
+        } else {
+            setFinalSize("سایز شما در دسته‌بندی موجود نیست.");
+        }
 
         if (finalColor && chestValue > 0 && hipsValue > 0) {
             dispatch(AddITEM({
                 ...data,
                 colors: finalColor,
-                size: `سایز سینه ${chestValue} - سایز باسن ${hipsValue}`
+                size: ` ${finalSize}`
             }));
             toast.success("اضافه به سبد خرید شد", {
                 position: "top-center",

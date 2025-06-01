@@ -3,24 +3,29 @@ import {calculateItemCounter, calculateTotal, saveCartToLocalStorage} from "@/he
 
 const loadCartFromLocalStorage = () => {
     if (typeof window !== 'undefined') {
-        // مطمئن شوید که کد فقط در سمت کلاینت اجرا می‌شود
-        const data = localStorage.getItem("cart");
-        return data ? JSON.parse(data) : {
-            selectedItems: [],
-            itemsCounter: 0,
-            total: 0,
-            favorites: [],
-            savedItem: [],
-            discount: 0
-        };
+        try {
+            const data = localStorage.getItem("cart");
+            if (data) {
+                const parsed = JSON.parse(data);
+                return {
+                    selectedItems: Array.isArray(parsed.selectedItems) ? parsed.selectedItems : [],
+                    itemsCounter: typeof parsed.itemsCounter === 'number' ? parsed.itemsCounter : 0,
+                    total: Number(parsed.total) || 0,
+                    discount: typeof parsed.discount === 'number' ? parsed.discount : 0,
+                    checkout: parsed.checkout ?? false
+                };
+            }
+        } catch (err) {
+            console.warn("localStorage cart corrupted, resetting.", err);
+        }
     }
+
     return {
         selectedItems: [],
         itemsCounter: 0,
         total: 0,
-        favorites: [],
-        savedItem: [],
-        discount: 0
+        discount: 0,
+        checkout: false
     };
 };
 
@@ -32,104 +37,109 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         AddITEM: (state, action) => {
-            console.log({state,action})
-            if (!state.selectedItems.find(item => item.id === action.payload.id && item.color === action.payload.color && item.size === action.payload.size)) {
+            const product = action.payload?.data?.product
+            const color = action.payload?.colors
+            const size = action.payload?.size
+            if (!product) {
+                console.error("Product not found in action payload:", action.payload);
+                return;
+            }
+            if (!Array.isArray(state.selectedItems)) {
+                console.warn("selectedItems was invalid. Resetting to []");
+                state.selectedItems = [];
+            }
+
+            const exists = state.selectedItems.find(item =>
+                item.id === product.id &&
+                item.colors === color &&
+                item.size === size
+            );
+
+            if (!exists) {
                 state.selectedItems.push({
                     ...action.payload,
                     quantity: 1,
-                    color: action.payload.color,
-                    size: action.payload.size,
-                })
-                state.total = calculateTotal(state.selectedItems)
-                state.itemsCounter = calculateItemCounter(state.selectedItems)
-                state.checkout = false
-                saveCartToLocalStorage(state.selectedItems)
+                    name: product.name,
+                    image: product.featured_image,
+                    id: product.id,
+                    price: product.price,
+                    color,
+                    size
+                });
+                state.total = calculateTotal(state.selectedItems);
+                state.itemsCounter = calculateItemCounter(state.selectedItems);
+                state.checkout = false;
+                saveCartToLocalStorage(state);
+                console.log({state, action})
             }
         },
         RemoveITEM: (state, action) => {
-            if (!action.payload?.id) return;
+            console.log({state, action})
+            const product = action.payload;
+            const color = product.color;
+            const size = product.size;
 
-            state.selectedItems = state.selectedItems.filter(item => item.id !== action.payload.id);
+            if (!product || !product.id) {
+                console.error("Product not found in action payload:", action.payload);
+                return;
+            }
 
-            // محاسبه مجدد مقدارها بعد از حذف
+            state.selectedItems = state.selectedItems.filter(item => {
+                if (!item) return false;
+                return !(item.id === product.id && item.color === color && item.size === size);
+            });
+
             state.total = calculateTotal(state.selectedItems);
             state.itemsCounter = calculateItemCounter(state.selectedItems);
-
-            // ذخیره در لوکال استوریج
-            saveCartToLocalStorage(state.selectedItems);
+            state.checkout = false;
+            saveCartToLocalStorage(state);
         },
         increase: (state, action) => {
-            console.log({state,action})
-            const increaseindex =state.selectedItems.findIndex(item => item.id === action.payload.id  && item.colors === action.payload.color && item.size === action.payload.size)
+            console.log({state, action})
+            const product = action.payload;
+            const color = product.color;
+            const size = product.size;
 
+            if (!product || !product.id) {
+                console.error("Product not found in action payload:", action.payload);
+                return;
+            }
+            const increaseindex = state.selectedItems.findIndex(item => item.id === product.id && item.color === color && item.size === size)
             if (increaseindex >= 0) {
                 state.selectedItems[increaseindex].quantity++;
                 state.total = calculateTotal(state.selectedItems);
                 state.itemsCounter = calculateItemCounter(state.selectedItems);
-                saveCartToLocalStorage(state)
+                state.checkout = false;
+                saveCartToLocalStorage(state);
             }
 
         },
         decrease: (state, action) => {
-            if (!action.payload?.id || !action.payload?.color || !action.payload?.size) return;
-            const decreaseIndex = state.selectedItems.findIndex(item =>
-                item.id === action.payload.id &&
-                item.colors === action.payload.color &&
-                item.size === action.payload.size
-            );
+            console.log({state, action})
+            const product = action.payload;
+            const color = product.color;
+            const size = product.size;
+
+            if (!product || !product.id) {
+                console.error("Product not found in action payload:", action.payload);
+                return;
+            }
+            const decreaseIndex = state.selectedItems.findIndex(item => item.id === product.id && item.color === color && item.size === size)
             if (decreaseIndex >= 0 && state.selectedItems[decreaseIndex].quantity > 1) {
                 state.selectedItems[decreaseIndex].quantity--;
                 state.total = calculateTotal(state.selectedItems);
                 state.itemsCounter = calculateItemCounter(state.selectedItems);
+                state.checkout = false;
+                saveCartToLocalStorage(state);
             }
-            saveCartToLocalStorage(state.selectedItems);
-        },
-        addToFavorites: (state, action) => {
-            if (!action.payload?.id) return;
-
-            // اطمینان از اینکه favorites همیشه یک آرایه است
-            if (!Array.isArray(state.favorites)) {
-                state.favorites = []; // اگر آرایه نباشد، یک آرایه خالی بسازید
-            }
-
-            const favoriteIndex = state.favorites.findIndex(item => item.id === action.payload.id);
-
-            if (favoriteIndex >= 0) {
-                // حذف از لیست علاقه‌مندی‌ها
-                state.favorites = state.favorites.filter(item => item.id !== action.payload.id);
-            } else {
-                // اضافه کردن به لیست علاقه‌مندی‌ها
-                state.favorites = [...state.favorites, action.payload];
-            }
-
-            saveCartToLocalStorage(state);
-        },
-        addToSavedItems: (state, action) => {
-            if (!action.payload?.id) return; // بررسی مقدار معتبر برای جلوگیری از خطا
-
-            const savedIndex = state.savedItem.findIndex(
-                item => item.id === action.payload.id
-            );
-
-            if (savedIndex >= 0) {
-                // اگر آیتم در لیست ذخیره‌شده‌ها بود، حذف کن
-                state.savedItem.splice(savedIndex, 1);
-            } else {
-                // اگر آیتم نبود، اضافه کن
-                state.savedItem.push(action.payload);
-            }
-
-            // ذخیره کل state در localStorage
-            saveCartToLocalStorage(state);
         },
         checkout: (state) => {
-            state.selectedItems = [];
-            state.itemsCounter = 0;
-            state.total = 0;
-            state.discount = 0;
-            localStorage.removeItem("cart");
-            saveCartToLocalStorage(state);
-        },
+            state.selectedItems = [],
+                state.itemsCounter = 0,
+                state.total = 0,
+                state.discount = 0
+
+        }
 
     }
 });
@@ -141,6 +151,5 @@ export const {
     increase,
     decrease,
     checkout,
-    addToFavorites,
-    addToSavedItems,
+    addToFavorites, addToSavedItems
 } = cartSlice.actions;

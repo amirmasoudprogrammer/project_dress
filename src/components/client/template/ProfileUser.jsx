@@ -7,8 +7,8 @@ import InputField from "@/components/client/module/InputField";
 function ProfileUser({ data, onProfileUpdated }) {
     const [formData, setFormData] = useState({
         user_name: "",
-        firstName: "",
-        lastName: "",
+        name: "",
+        last_name: "",
         mobile: "",
         birthDate: "",
         email: "",
@@ -19,8 +19,8 @@ function ProfileUser({ data, onProfileUpdated }) {
         if (data) {
             setFormData({
                 user_name: data.user_name ?? "",
-                firstName: data.name ?? "",
-                lastName: data.last_name ?? "",
+                name: data.name ?? "",
+                last_name: data.last_name ?? "",
                 mobile: data.mobile ?? "",
                 birthDate: data.birthday ? new Date(data.birthday).toISOString().split('T')[0] : "",
                 email: data.email ?? "",
@@ -29,6 +29,7 @@ function ProfileUser({ data, onProfileUpdated }) {
         }
     }, [data]);
 
+    console.log(data)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -41,8 +42,8 @@ function ProfileUser({ data, onProfileUpdated }) {
         e.preventDefault();
         try {
             const form = new FormData();
-            form.append("name", formData.firstName);
-            form.append("last_name", formData.lastName);
+            form.append("name", formData.name);
+            form.append("last_name", formData.last_name);
             form.append("user_name", formData.user_name);
             form.append("email", formData.email);
             form.append("phone", formData.mobile);
@@ -54,11 +55,12 @@ function ProfileUser({ data, onProfileUpdated }) {
             const res = await axios.post("https://joppin.ir/api/v1/user/profile", form, {
                 headers: token ? { Authorization: `Bearer ${token}` } : {}
             });
+            console.log(res)
 
             if (res.data) {
                 toast.success("حساب کاربری با موفقیت ویرایش شد!");
-                // داده‌های جدید را از سرور دریافت کن
-                onProfileUpdated(); // این تابع از Page آمده
+
+                onProfileUpdated();
             }
         } catch (error) {
             toast.error("خطا در ارسال اطلاعات");
@@ -75,8 +77,8 @@ function ProfileUser({ data, onProfileUpdated }) {
             </div>
 
             <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={startSubmit}>
-                <InputField label="نام" name="firstName" value={formData.firstName} onChange={handleChange} />
-                <InputField label="نام خانوادگی" name="lastName" value={formData.lastName} onChange={handleChange} />
+                <InputField label="نام" name="name" value={formData.name} onChange={handleChange} />
+                <InputField label="نام خانوادگی" name="last_name" value={formData.last_name} onChange={handleChange} />
                 <InputField label="نام کاربری" name="user_name" value={formData.user_name} onChange={handleChange} />
                 <InputField label="شماره موبایل" name="mobile" value={formData.mobile} onChange={handleChange} />
                 <InputField label="تاریخ تولد" name="birthDate" type="date" value={formData.birthDate} onChange={handleChange} />

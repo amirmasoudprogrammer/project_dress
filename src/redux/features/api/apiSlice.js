@@ -5,9 +5,15 @@ export const productApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: "https://joppin.ir/api/v1" }),
     endpoints: (builder) => ({
         getProducts: builder.query({
-            query: () => "products", // نهایی: https://joppin.ir/api/v1/products
+            // دریافت لیست محصولات صفحه‌بندی شده
+            query: (page = 1) => `products?page=${page}`,
+        }),
+
+        getNewArrivals: builder.query({
+            // دریافت محصولات جدید
+            query: () => 'products/new-arrivals',
         }),
     }),
 });
 
-export const { useGetProductsQuery } = productApi;
+export const { useGetProductsQuery, useGetNewArrivalsQuery } = productApi;

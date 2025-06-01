@@ -1,39 +1,44 @@
 import React from 'react';
-import {IoIosClose} from "react-icons/io";
-import {ConvertCurrency} from "@/helper/text";
+import { IoIosClose } from "react-icons/io";
 
-function CardPriceShopping({item}) {
+function CardPriceShopping({ item }) {
+    const price = Number(item.price).toLocaleString("fa-IR");
+
     return (
         <>
-            <div
-                className="hidden md:flex w-[300px] flex-col items-center justify-between w-auto m-auto pr-5 pl-10 pb-5">
-                <div className=" flex text-[#626262] m-auto items-center w-auto justify-between">
-                    <span className="ml-6 text-sm">پیراهن ماکسی سوفیا</span>
-                    <div className="flex items-center ml-6">
-                        <IoIosClose/>
+            {/* دسکتاپ */}
+            <div className="hidden md:flex justify-between w-full max-w-[360px] flex-col m-auto bg-white  rounded-xl  px-6 py-4">
+                <div className="flex items-center justify-between text-gray-700">
+                    <span className="text-sm font-medium truncate max-w-[100px]">{item.name}</span>
+
+                    <div className="flex items-center justify-center text-sm font-medium">
+                        <IoIosClose className="text-lg text-gray-500" />
                         <span>{item.quantity}</span>
                     </div>
-                    <div className="flex">
-                        <span className="text-sm">{ConvertCurrency(item.price)}</span>
-                        <p className="mr-2 text-sm">تومان</p>
+
+                    <div className="flex items-center text-sm font-semibold text-orange-500">
+                        <span>{price}</span>
+                        <span className="mr-1">تومان</span>
                     </div>
                 </div>
             </div>
 
-                <div className="flex md:hidden items-start justify-between w-[312px] mt-2">
-                   <div className="flex items-center justify-start">
-                       <span className="ml-6 text-sm text-[#626262]">پیراهن ماکسی سوفیا</span>
-                   </div>
-                    <div className="flex items-center justify-center ml-6 text-[#626262]">
-                        <IoIosClose/>
+            {/* موبایل */}
+            <div className="md:hidden w-[320px] mx-auto mt-3 bg-white border border-gray-200 rounded-2xl shadow-sm px-4 py-3">
+                <div className="flex items-center justify-between text-gray-700">
+                    <span className="text-sm font-medium truncate max-w-[100px]">{item.name}</span>
+
+                    <div className="flex items-center text-sm font-medium">
+                        <IoIosClose className="text-lg text-gray-500" />
                         <span>{item.quantity}</span>
                     </div>
-                    <div className="flex text-[#626262]">
-                        <span className="text-sm">{ConvertCurrency(item.price)}</span>
-                        <p className="mr-2 text-sm">تومان</p>
+
+                    <div className="flex items-center text-sm font-semibold text-orange-500">
+                        <span>{price}</span>
+                        <span className="mr-1">تومان</span>
                     </div>
                 </div>
-
+            </div>
         </>
     );
 }

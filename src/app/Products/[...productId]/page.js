@@ -10,7 +10,9 @@ import { useQuery } from '@tanstack/react-query';
 
 function Page() {
     const params = useParams();
-    const productId = params.productId;
+    console.log(params)
+    const productId = params.productId?.[0]; // id از آدرس
+    const slug = params.productId?.[1]; // name یا slug از آدرس
 
     const fetchProduct = async () => {
         try {
@@ -28,13 +30,12 @@ function Page() {
         queryKey: ['product', productId],
         queryFn: fetchProduct,
     });
-    console.log(data)
 
     if (isLoading) return <LoadingOrError message="لطفا کمی صبر کنید..." />;
     if (error) return <LoadingOrError message="خطا در دریافت اطلاعات محصول" />;
     if (!data) return <LoadingOrError message="سرعت اینترنت پایین است" />;
 
-    return <ProductsDetail data={data} />;
+    return <ProductsDetail data={data} slug={slug} />;
 }
 
 export default Page;

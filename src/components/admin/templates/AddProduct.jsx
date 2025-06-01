@@ -116,6 +116,8 @@ function AddProduct(props) {
         }
     };
 
+    console.log(colors)
+
 
     return (
         <div className="mt-32 mr-8">

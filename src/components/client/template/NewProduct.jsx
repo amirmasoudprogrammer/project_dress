@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Title from "@/components/client/template/Title";
-import { useGetProductsQuery } from "@/redux/features/api/apiSlice";
+import {useGetNewArrivalsQuery, useGetProductsQuery} from "@/redux/features/api/apiSlice";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
@@ -11,7 +11,8 @@ import { motion } from "framer-motion";
 import CardProductImage from "@/components/client/module/CardProductImage";
 
 function NewProduct() {
-    const { data, error, isLoading } = useGetProductsQuery();
+    const { data, error, isLoading } = useGetNewArrivalsQuery( );
+    console.log(data)
 
     const products = data?.data || [];
 

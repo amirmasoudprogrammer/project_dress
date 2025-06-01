@@ -37,7 +37,6 @@ function FavoritesPage({data}) {
         setItemToDelete(null);
     };
 
-    console.log({favoritesList})
 
 
     const handleExit = () => {

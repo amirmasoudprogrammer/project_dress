@@ -20,10 +20,12 @@ export default function LayoutWrapper({ children }) {
         "/Admin_Dashboard/Products_Comments", "/Admin_Dashboard/Banners",
         "/Admin_Dashboard/ticket", "/Admin_Dashboard/Menus",
         "/Admin_Dashboard/Settings", "/Admin_Dashboard/Product/add",
+        "/Admin_Dashboard/Product/Colors",
         "/Admin_Dashboard/Categories", "/Admin_Dashboard/Categories/add",
         "/Admin_Dashboard/Users/roles", "/Admin_Dashboard/Users/permissions",
         "/Admin_Dashboard/Discounts", "/Admin_Dashboard/Discounts/Add",
         "/Admin_Dashboard/Discounts/Edit", "/Admin_Dashboard/Blogs/add",
+        "/Admin_Dashboard/About",
         "/LoginAdmin"
     ];
 

@@ -1,56 +1,79 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {motion} from "framer-motion";
-import {availableColors} from "@/utils/Users";
+import Cookies from "js-cookie";
+import axios from "axios";
+
 
 function AddColors({colors, setColors}) {
-    console.log(colors)
+
     const [isOpen, setIsOpen] = useState(false);
     const [colorPickerTarget, setColorPickerTarget] = useState(null);
-
-
-    const handleColorSelect = (selectedColor) => {
-        if (colorPickerTarget) {
-            const {type, colorIdx, combIdx} = colorPickerTarget;
-            const newColors = [...colors];
-            console.log(selectedColor)
-
-            if (type === "main") {
-                newColors[colorIdx].name = selectedColor.name;
-                newColors[colorIdx].hex_code = selectedColor.hex_code;
-            } else if (type === "combination") {
-                newColors[colorIdx].combinations[combIdx].name = selectedColor.name;
-                newColors[colorIdx].combinations[combIdx].hex_code = selectedColor.hex_code;
-            }
-
-            setColors(newColors);
-            setColorPickerTarget(null);
+    const [color, setColor] = useState(null);
+    const fetchData = async () => {
+        try {
+            const token = Cookies.get('tokenAdmin');
+            const res = await axios.get('https://joppin.ir/api/v1/admin/colors', {
+                headers: token ? {Authorization: `Bearer ${token}`} : {}
+            });
+            setColor(res.data.data);
+        } catch (error) {
+            console.error("خطا در دریافت محصولات:", error);
         }
     };
-
-    const handleColorChange = (idx, field, value) => {
-        const newColors = [...colors];
-        newColors[idx][field] = value;
-        setColors(newColors);
-    };
-
-    const handleCombinationChange = (colorIdx, combIdx, field, value) => {
-        const newColors = [...colors];
-        newColors[colorIdx].combinations[combIdx][field] = value;
-        setColors(newColors);
-    };
-
+    useEffect(() => {
+        fetchData();
+        const interval = setInterval(fetchData, 5000);
+        return () => clearInterval(interval);
+    }, []);
     const addColor = () => {
         setColors([
             ...colors,
             {name: "", hex_code: "", stock: "", combinations: [{name: "", hex_code: "", description: ""}]}
         ]);
     };
+    const handleColorSelect = (selectedColor) => {
+        const {type, colorIdx, combIdx} = colorPickerTarget;
 
-    const addCombination = (colorIdx) => {
-        const newColors = [...colors];
-        newColors[colorIdx].combinations.push({name: "", hex_code: "", description: ""});
-        setColors(newColors);
+
+        const {hex_code, display_name, name, id} = selectedColor
+        const updatedColors = [...colors]
+        console.log(updatedColors)
+        if (type === "main") {
+            updatedColors[colorIdx].name = name
+            updatedColors[colorIdx].hex_code = hex_code;
+            updatedColors[colorIdx].display_name = display_name;
+
+
+        }else if (type === "combination") {
+            updatedColors[colorIdx].combinations[combIdx].name = name;
+            updatedColors[colorIdx].combinations[combIdx].hex_code = hex_code;
+            updatedColors[colorIdx].display_name = display_name;
+        }
+        setColors(updatedColors);
+        setColorPickerTarget(null);
+    }
+    const handleColorChange = (index, field, value) =>{
+        const updatedColors = [...colors];
+        updatedColors[index][field] = value;
+        setColors(updatedColors);
+    }
+    const handleCombinationChange = (colorIdx, combIdx, field, value) => {
+        const updatedColors = [...colors];
+        updatedColors[colorIdx].combinations[combIdx][field] = value;
+        setColors(updatedColors);
     };
+    const addCombination = (colorIdx) => {
+        const updatedColors = [...colors];
+        updatedColors[colorIdx].combinations.push({name: "", hex_code: "", description: ""});
+        setColors(updatedColors);
+    };
+
+    console.log(colors)
+
+
+
+
+
 
     return (
         <>
@@ -103,6 +126,7 @@ function AddColors({colors, setColors}) {
                                         className="border p-2 rounded-md w-full bg-gray-100 mt-2"
                                     />
                                 </div>
+
 
                                 <input
                                     type="number"
@@ -192,7 +216,7 @@ function AddColors({colors, setColors}) {
                         <h3 className="text-xl font-bold text-center">انتخاب رنگ</h3>
 
                         <div className="grid grid-cols-2 gap-4 max-h-80 overflow-y-auto pr-2">
-                            {availableColors.map((color, index) => (
+                            {color.map((color, index) => (
                                 <motion.div
                                     key={index}
                                     initial={{opacity: 0, y: 10}}

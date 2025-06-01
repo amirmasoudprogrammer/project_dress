@@ -15,7 +15,7 @@ function Page(props) {
             });
             return res.data;
         } catch (error) {
-            throw new Error(error?.response?.data?.message || 'خطا در دریافت اطلاعات تیکت‌ها');
+            throw new Error(error?.response?.data?.message || 'خطا در دریافت اطلاعات محصولات');
         }
     };
 
